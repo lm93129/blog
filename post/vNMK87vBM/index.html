@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>zabbix监控端部署教程（Windows和Linux） | 废猫</title>
+<meta name="description" content="温故而知新，">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">废猫</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav" target="_blank">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新，
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">zabbix监控端部署教程（Windows和Linux）</h2>
+            <div class="post-date">2019-03-04</div>
+            
+            <div class="post-content">
+              <h1 id="zabbix监控端部署教程（windows和linux）">zabbix监控端部署教程（Windows和Linux）</h1><h2 id="windows部署agent">windows部署agent</h2><p>官网下载agent后解压，找到conf下的配置文件 zabbix_agentd.win.conf ，修改LogFile、Server、ServerActive 、Hostname这几个参数</p>
+<p>Server: zabbix server的ip地址，</p>
+<p>ServerActive: zabbix 主动监控server的ip地址，</p>
+<p>其中Server和ServerActive都指定zabbix Server的IP地址，不同的是，前者是被动后者是主动。也就是说Server这个配置是用来允许172.17.22.155这个ip来我这取数据。而ServerActive的172.17.22.155的意思是，客户端主动提交数据给他。</p>
+<p>Hostname 主机名，必须唯一，区分大小写。Hostname必须和zabbix web上配置的一直，否则zabbix主动监控无法正常工作。因为agent拿着这个主机名去问server，我有配置主动监控项吗？server拿着这个主机名去配置里面查询，然后返回信息。</p>
+<p>zabbix agent检测分为主动（agent active）和被动（agent）两种形式，主动与被动的说法均是相对于agent来讨论的。</p>
+<p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy</p>
+<p>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+<p>修改好配置文件后，用CMD（需有管理员权限）将Zabbix Agent安装为Windows系统的服务，在windows控制台下执行以下命令（文件地址需要自行修改）：</p>
+<p><code>C:\\zabbix\\bin\\win64\\zabbix\_agentd.exe -i -c C:\\zabbix\\conf\\zabbix\_agentd.win.conf</code></p>
+<p>控制台输出信息如下，表示安装成功：</p>
+<p><code>zabbix\_agentd.exe [4864]: service [Zabbix Agent] installed successfully zabbix\_agentd.exe [4864]: event source [Zabbix Agent] installed successfully</code></p>
+<p>启动zabbix-agent客户端</p>
+<p><code>C:\\zabbix\\bin\\win64\\zabbix\_agentd.exe -c C:\\zabbix\\conf\\zabbix\_agentd.win.conf -s</code></p>
+<h3 id="系统防火墙需要开放10050端口">系统防火墙需要开放10050端口</h3><p>此外Windows系统建议自行配置网卡监控信息，linux可以使用自动发现</p>
+<h1 id="linux下部署agent">linux下部署agent</h1><p>Linux系统分为centos6.x和7.x</p>
+<h2 id="centos6系统下部署agent">centos6系统下部署agent</h2><p>先添加源<code>rpm -i http://mirrors.aliyun.com/zabbix/zabbix/3.4/rhel/6/x86_64/zabbix-release-3.4-1.el6.noarch.rpm</code><a href="http://mirrors.aliyun.com/zabbix/zabbix/3.4/rhel/6/x86_64/zabbix-release-3.4-1.el6.noarch.rpm"></a></p>
+<p> 然运行<code>yum -y install zabbix-agent</code><br> 安装完成后配置文件在<code>/etc/zabbix/zabbix_agentd.conf</code>和Windows一样，修改里面的hostname和server以及ServerActive<br> 配置完成后运行<code>service zabbix-agent start</code><br> 重启为<code>service zabbix-agent restart</code></p>
+<h2 id="centos7系统下部署agent">centos7系统下部署agent</h2><hr>
+<p>先添加源<code>rpm -ivh http://mirrors.aliyun.com/zabbix/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm</code><a href="http://mirrors.aliyun.com/zabbix/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-1.el7.centos.noarch.rpm"></a><a href="http://mirrors.aliyun.com/zabbix/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm"></a></p>
+<p>然运行<code>yum -y install zabbix-agent</code></p>
+<pre><code>安装完成后配置文件在`/etc/zabbix/zabbix_agentd.conf`和Windows一样，修改里面的hostname和server以及ServerActive
+
+配置完成后运行`systemctl start zabbix-agent`
+
+重启为`systemctl restart zabbix-agent`</code></pre><pre><code></code></pre>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/5fDjh_lix">
+                  <h3 class="post-title">
+                    docker部署zabbix监控系统服务端
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
