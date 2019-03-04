@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>项目风险识别清单 | 废猫</title>
+<meta name="description" content="温故而知新，">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">废猫</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新，
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">项目风险识别清单</h2>
+            <div class="post-date">2019-03-04</div>
+            
+            <div class="post-content">
+              <h1 id="风险识别清单">风险识别清单</h1><table>
+<tr>
+    <td> 分类 </td>
+    <td> 清单 </td>
+    <td> 说明 </td>
+</tr>
+<tr>
+    <td rowspan="2"> 需求 <br/>
+    <td>产品片的业务需求、用户需求、功能需求和系统需求是否完整、清晰</td>
+    <td> 检查需求的质量，确保需求能够有效知道开发和测试 </td>
+</tr>
+<tr>
+    <td>开发人员在进行产品设计之前是否充分理解了产品的需求</td>
+    <td>在项目种非常容易出现开发人员并没有完全理解产品的需求，就开始设计编码，直到系统测试阶段才发现和需求不符的问题。一旦出现这样的问题，产品很有可能就会返工，对产品来说是致命的打击。</td>
+</tr>
+<tr>
+    <td rowspan="9"> 设计 <br/>
+    <td>是否使用了“新技术”</td>
+    <td> 包括产品之前未使用的新构架、新平台、新算法等</td>
+</tr>
+<tr>
+    <td>系统中是否会存在一些设计“瓶颈”？如果存在，是否有应对措施</td>
+    <td>例如，产品的老架构能否满足产品新增的特性的性能、可靠性方面的要求</td>
+</tr>
+<tr>
+    <td>产品是否设计得过于复杂，难以理解？</td>
+    <td>再项目种，难以理解的设计，问题往往也是比较多的。所以需要重点关注。</td>
+</tr>
+<tr>
+    <td>开发人员是否能够讲清楚产品设计</td>
+    <td>一般来说，开发人员是可以讲清楚自己的设计。如果开发人员无法讲清楚自己的设计，说明设计本身就存着一些问题。这部分设计的可维护性，可移植性就可能不会太好</td>
+</tr>
+<tr>
+    <td>开发人员对异常、非功能方面的内容是否考虑得足够全面</td>
+    <td>例如，如果数据被损坏，会发生什么？如何处理？这个功能的使用的资源或者组件有没有可能被其他功能修改或者影响。有没有考虑过最大负载，容灾，灾备。</td>
+</tr>
+<tr>
+    <td>开发人员在设计中是否存在一些比较担心的地方？</td>
+    <td>测试人员可以适当关注开发人员的主观感受，而不仅仅是设计文档</td>
+</tr>
+<tr>
+    <td>开发人员是否会考虑和设计一些测试性或者易于定位的功能</td>
+    <td>由“不易于验证的设计”可以推测出开发人员在设计编码时的自检可能也是不充分的，这部分代码质量可能并不高，相对风险较高</td>
+</tr>
+<tr>
+    <td>对于一个需要多人（或者多组）才能配合完成的功能，是否有人会进行整体的设计，协调和把关？</td>
+    <td>当开发人员的设计会依赖于其他设计时，开发人员一般会假设接口能够满足需求，而忽视彼此的沟通和确认的环节，使得产品再集成开发时候出现问题，影响产品质量和项目进度</td>
+</tr>
+<tr>
+    <td>对有依赖或约束的内容，是否有充分的考虑</td>
+    <td>例如，与产品配套的日志、审计类产品是否能够满足产品的发布周期？与产品相关的平台是否稳定？</td>
+</tr>
+<tr>
+    <td rowspan="4"> 流程 <br/>
+    <td>项目是否使用了新的流程，开发方法等</td>
+    <td> 例如，从传统瀑布开发模式到开始使用敏捷开发的模式</td>
+</tr>
+<tr>
+    <td>开发人员是否会进行自测？是如何进行自测的？测试的深度和发现问题的情况如何</td>
+    <td>开发自测是产品代码质量的重要保证活动。测试需要关注开发人员的自测方法和发现问题的清空。一般来说，自测充分的模块，代码质量可能会相对较好，反之就可能会比较差。</td>
+</tr>
+<tr>
+    <td>开发人员如何进行代码修改，是如何保证修改的正确性</td>
+    <td>例如，开发人员是否会对修改方案进行评审？是否会对修改的代码进行检视和评估？是否会对修改进行测试验证？是否会进行回归测试等</td>
+</tr>
+<tr>
+    <td>开发人员是如何进行版本管理的？</td>
+    <td>例如，开发人员是否存在版本分支管理混乱的问题？是否会随意修改、合入代码，而不对变动做记录和控制。</td>
+</tr>
+<tr>
+    <td rowspan="2"> 变更 <br/>
+    <td>新版本在旧功能方面做了哪些修改？修改后的主要影响是什么？</td>
+    <td> </td>
+</tr>
+<tr>
+    <td>在项目过程中，需求是否总是在变更？</td>
+    <td></td>
+</tr>
+<tr>
+    <td rowspan="6"> 组织和人 <br/>
+    <td>那些模块是由其他组织开发的？他们在哪里开发？开发流程、能力如何？</td>
+    <td> </td>
+</tr>
+<tr>
+    <td>产品的研发团队（包括需求、开发和测试）是否存在于不同的地方？彼此分工如何？沟通是否顺畅？</td>
+    <td></td>
+</tr>
+<tr>
+    <td>团队人员能力如何？经验如何（包括需求、开发和测试团队）？</td>
+    <td></td>
+</tr>
+<tr>
+    <td>团队是否稳定（包括需求、开发和测试团队）？</td>
+    <td></td>
+</tr>
+<tr>
+    <td>团队的人手是否充足（包括需求、开发和测试团队）？</td>
+    <td></td>
+</tr>
+<tr>
+    <td>测试环境是否具备（包括必备的工具、硬件设备）？</td>
+    <td></td>
+</tr>
+<tr>
+    <td rowspan="3"> 历史 <br/>
+    <td>哪些特性在产品测试时就存在很多bug？
+    </td>
+    <td> 根据“bug聚集性”的力量，历史上的bug重灾区，当前版本可能继续需要重点关注 </td>
+</tr>
+<tr>
+    <td>哪些特性存在较多的客户反馈问题？</td>
+    <td>客户反馈的问题比较多，说明之前可能存在一些测试不充分的地方，在当前版本需要重点关注</td>
+</tr>
+<tr>
+    <td>历史上哪些情况曾经导致过阻塞测试活动的问题？</td>
+    <td>需要对这些问题进行根因分析和总结，防止同意的问题在新的项目中再度发生，历史悲剧再度重演</td>
+</tr>
+</table>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/nZC1pNLO0">
+                  <h3 class="post-title">
+                    缺陷等级定义
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

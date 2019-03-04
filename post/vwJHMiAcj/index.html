@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Linux基础命令记录 | 废猫</title>
+<meta name="description" content="温故而知新，">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">废猫</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新，
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Linux基础命令记录</h2>
+            <div class="post-date">2019-03-04</div>
+            
+            <div class="post-content">
+              <p>服务器一键测试脚本</p>
+<p><code>wget -qO- bench.sh | bash</code></p>
+<h3 id="修改时区并校对时间">修改时区并校对时间</h3><pre><code>cp -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+yum -y install ntpdate
+ntpdate -u ntp.api.bz</code></pre><h3 id="firewall 防火墙命令">firewall 防火墙命令</h3><pre><code>firewall-cmd --reload #重启
+systemctl stop firewalld.service #停止防火墙
+systemctl disable firewalld.service #开机不启动防火墙
+firewall-cmd --state #查看默认防火墙状态（关闭后显示not running，开启后显示running）</code></pre><h3 id="docker 命令简单介绍">docker 命令简单介绍</h3><pre><code>docker ps #查看启动的容器
+docker start xxx #启动容器，XXX为容器ID或容器名
+docker stop xxx #停止容器，XXX为容器ID或容器名
+docker rm xxx #删除容器，XXX为容器ID或容器名
+docker images #查看镜像
+docker rmi xxx #删除镜像，XXX为镜像ID或镜像名
+docker system prune -a #清理所有不用的数据(停止的容器,不使用的volume,不使用的networks,悬挂的镜像)</code></pre><p>docker更换为国内源</p>
+<pre><code>#编辑daemon.json文件
+vi /etc/docker/daemon.json
+#加入源的连接
+{
+&quot;registry-mirrors&quot;: [&quot;https://docker.mirrors.ustc.edu.cn&quot;]
+}
+#保存退出
+sudo systemctl daemon-reload
+sudo systemctl restart docker</code></pre><h3 id="docker-compose 命令">docker-compose 命令</h3><p>以下命令中加入-f参数可以指定docker-compose.yml文件，否则执行下面命令时，当前目录中必须要要有docker-compose文件</p>
+<pre><code>#后台启动docker-compose
+docker-compose up -d
+#关闭docker-compose
+docker-compose down</code></pre><h3 id="git 命令速查">git 命令速查</h3><p><img src="https://i.loli.net/2019/02/20/5c6cc61154374.png" alt=""></p>
+<h3 id="nginx 命令简单介绍">NGINX 命令简单介绍</h3><pre><code>#检查nginx配置文件是否有错误（也可以查看nginx配置文件位置）
+nginx -t
+#重新加载nginx配置文件（不需要重新启动nginx）
+nginx -s reload</code></pre><h3 id="screen 命令介绍">screen 命令介绍</h3><pre><code>#新建一个叫xxx的终端
+screen -S xxx
+#回到xxx终端
+screen -dr xxx
+#显示screen的列表
+screen -ls
+#screen回到上一个终端
+ctrl+a然后按d</code></pre><h3 id="修改 selinux 模块">修改 SELinux 模块</h3><pre><code>#查看SELinux当前状态：
+getenforce
+
+#修改SELinux状态（临时修改,重启机器后失效)
+ setenforce 0  #将SELinux修改为Permissive状态(遇到违反安全策略的,会采取警告,允许通过)
+ setenforce 1  #将SELinux状态修改为Enforcing状态(遇到违反安全策略的,不允许通过)
+
+#修改SELinuxw为禁用状态 (永久性,重启机器后保持生效)
+-打开文件: /etc/selinux/config 修改 SELINUX = disabled
+-重启机器后生效，重启机器命令:reboot</code></pre><h3 id="java 项目相关命令">java 项目相关命令</h3><pre><code>#后台运行jar包（不推荐使用，建议使用pm2）
+nohup java -jar XXX.jar &amp;
+#打包项目并跳过单元测试（首次打包会下载依赖所以比较久）
+./mvnw clean package -Dmaven.test.skip=true
+或者
+mvn clean package -Dmaven.test.skip=true</code></pre><h3 id="pm2运行jar包">pm2运行jar包</h3><p>在源码目录创建一个pm2.config.js文件，内容如下：</p>
+<pre><code>module.exports = {
+    apps: [
+    {
+            name: &#39;xxxxx-server&#39;, #服务的名字
+            script: &#39;java&#39;,
+            args: [
+                &#39;-jar&#39;,
+                &#39;target/xxxxx-0.0.1.jar&#39;, #jar包的位置
+                &#39;--spring.profiles.active=prod&#39; #额外命令可以根据实际进行增删
+            ],
+            cwd: &#39;.&#39;,
+            interpreter: &#39;&#39;
+        }
+    ]
+}
+</code></pre><p>以上为基础示例，如果需要加其他命令，需要按照格式在args里面进行修改。然后运行pm2 start pm2.config.js</p>
+<p>如果要便捷的一次性包含打包和运行pm2，可以新建一个run.sh文件，写入如下代码：</p>
+<pre><code>#!/bin/sh
+cd `dirname $0`
+./mvnw clean package -Dmaven.test.skip=true &amp;&amp; pm2 restart pm2.config.js</code></pre>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/I4uADoACK">
+                  <h3 class="post-title">
+                    NGINX配置文件详解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
