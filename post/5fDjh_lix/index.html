@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>docker部署zabbix监控系统服务端 | 废猫</title>
+<meta name="description" content="温故而知新，">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">废猫</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav" target="_blank">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新，
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">docker部署zabbix监控系统服务端</h2>
+            <div class="post-date">2019-03-04</div>
+            
+            <div class="post-content">
+              <h1 id="docker部署zabbix监控系统服务端">docker部署zabbix监控系统服务端</h1><h3 id="启动一个空的mysql服务器实例">启动一个空的MySQL服务器实例</h3><pre><code>docker run --name mysql-server -t \
+-e MYSQL_DATABASE=&quot;zabbix&quot; \
+-e MYSQL_USER=&quot;zabbix&quot; \
+-e MYSQL_PASSWORD=&quot;zabbix_zjhthxjk&quot; \
+-e MYSQL_ROOT_PASSWORD=&quot;root_abc.123654&quot; \
+-d mysql:5.7</code></pre><h3 id="启动zabbix java gateway实例">启动Zabbix Java gateway实例</h3><pre><code>docker run --name zabbix-java-gateway -t \
+-d zabbix/zabbix-java-gateway:latest</code></pre><p>###启动Zabbix server实例，并关联这个实例到已创建的MySQL服务器实例</p>
+<pre><code>docker run --name zabbix-server-mysql -t \
+-e DB_SERVER_HOST=&quot;mysql-server&quot; \
+-e MYSQL_DATABASE=&quot;zabbix&quot; \
+-e MYSQL_USER=&quot;zabbix&quot; \
+-e MYSQL_PASSWORD=&quot;zabbix_zjhthxjk&quot; \
+-e MYSQL_ROOT_PASSWORD=&quot;root_abc.123654&quot; \
+-e ZBX_JAVAGATEWAY=&quot;zabbix-java-gateway&quot; \
+-e ZBX_JAVAGATEWAY_ENABLE=&quot;true&quot; \
+--link mysql-server:mysql \
+--link zabbix-java-gateway:zabbix-java-gateway \
+-p 10051:10051 \
+-d zabbix/zabbix-server-mysql:latest</code></pre><p>在部署后可以将宿主机的时区文件复制到docker里面，命令如下<br><code>docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID:/etc/localtime</code></p>
+<h3 id="启动zabbix web 接口，并将它与mysql服务器实例和zabbix server实例关联">启动Zabbix web 接口，并将它与MySQL服务器实例和Zabbix server实例关联</h3><pre><code>docker run --name zabbix-web-nginx-mysql -t \
+-e DB_SERVER_HOST=&quot;mysql-server&quot; \
+-e MYSQL_DATABASE=&quot;zabbix&quot; \
+-e MYSQL_USER=&quot;zabbix&quot; \
+-e MYSQL_PASSWORD=&quot;zabbix_zjhthxjk&quot; \
+-e MYSQL_ROOT_PASSWORD=&quot;root_abc.123654&quot; \
+-e PHP_TZ=&quot;Asia/Shanghai&quot; \
+--link mysql-server:mysql \
+--link zabbix-server-mysql:zabbix-server \
+-p 80:80 \
+-d zabbix/zabbix-web-nginx-mysql:latest</code></pre><p>在部署后可以将宿主机的时区文件复制到docker里面，命令如下<br><code>docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID:/etc/localtime</code><br>部署完web接口后需要将中文字体拷贝到容器中，命令如下：<br><code>docker cp hanzi.ttf 容器ID:/usr/share/zabbix/fonts</code><br>然后进入web接口容器<br><code>docker exec -it 容器ID /bin/sh</code><br>编辑配置文件中的ZBX_FONT_NAME为上面的ttf文件名hanzi<br><code>vi include/define.inc.php</code></p>
+<h3 id="docker部署agent">docker部署agent</h3><pre><code>docker run --name zabbix-agent -t \
+-e ZBX_HOSTNAME=&quot;HOSTNAME&quot; \
+-e ZBX_SERVER_HOST=&quot;server ip&quot; \
+-p 10050:10050 \
+-d zabbix/zabbix-agent:latest</code></pre>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/SQsxz7MCp">
+                  <h3 class="post-title">
+                    常见开源组件的安装
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
