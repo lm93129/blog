@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>性能测试 | 废猫</title>
+<title>开启jmx监控tomcat各项性能 | 废猫</title>
 <meta name="description" content="温故而知新，">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,58 +75,47 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 性能测试</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://lm93129.github.io/blog//post/YESFQ3hzt">
-                  <h2 class="post-title">开启jmx监控tomcat各项性能</h2>
-                </a>
-                <div class="post-date">
-                  2019-03-04
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://lm93129.github.io/blog//post/vNMK87vBM">
-                  <h2 class="post-title">zabbix监控端部署教程（Windows和Linux）</h2>
-                </a>
-                <div class="post-date">
-                  2019-03-04
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://lm93129.github.io/blog//post/5fDjh_lix">
-                  <h2 class="post-title">docker部署zabbix监控系统服务端</h2>
-                </a>
-                <div class="post-date">
-                  2019-03-04
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">开启jmx监控tomcat各项性能</h2>
+            <div class="post-date">2019-03-04</div>
+            
+            <div class="post-content">
+              <p>jmx监控程序在jdk目录bin下面的jvisualvm</p>
+<p>tomcat开启jmx监控，windows在bin/catalina.bat（linux下为catalina.sh)<br>在-- Execute The Requested Command -----的前面加入如下代码：</p>
+<pre><code>set JMX_REMOTE_CONFIG=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8999-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false  
+set CATALINA_OPTS=%CATALINA_OPTS% %JMX_REMOTE_CONFIG% </code></pre><p>设置完成后，运行tomcat程序</p>
+<p>打开jvisualvm然后连接tomcat所在的服务器，输入ip:端口就可以监控到对应tomcat</p>
+<p>如果需要监控同一台电脑不同的tomcat，可以设置不同的监控端口，将上面的代码中的8999修改为其他的不冲突端口即可</p>
+<p>如果要使用zabbix监控的话，直接再主机中添加对应的地址和端口即可</p>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/vNMK87vBM">
+                  <h3 class="post-title">
+                    zabbix监控端部署教程（Windows和Linux）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
