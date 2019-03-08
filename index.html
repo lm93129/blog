@@ -1,324 +1,312 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>废猫</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
 <link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://lm93129.github.io/blog/">
-  <img class="avatar" src="https://lm93129.github.io/blog//images/avatar.png" alt="" width="80px" height="80px">
-  </a>
-  <h1 class="site-title">
-    废猫
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">废猫</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://lm93129.github.io/blog/" class="menu">
-          首页
-        </a>
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://lm93129.github.io/blog//archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://lm93129.github.io/blog//tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://lm93129.github.io/blog//post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
   </div>
 </div>
 
-    
-        <div class="post-container">
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/PlU021Ndb">
+                  <h2 class="post-title">acme自动签发HTTPS证书--摘录官方wiki</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/PlU021Ndb">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/PlU021Ndb.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/48t-QeAvo">
+                  <h2 class="post-title">ELK Metricbeat配置文件的修改</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/48t-QeAvo">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/48t-QeAvo.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/WTAZgiW86">
+                  <h2 class="post-title">ELK的Metricbeat性能监控组件部署方法</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/WTAZgiW86">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/WTAZgiW86.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/gTgj2fXew">
+                  <h2 class="post-title">Appium自动化测试简单入门</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/gTgj2fXew">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/gTgj2fXew.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/4tSEylPV0">
+                  <h2 class="post-title">企业级Docker私有仓库之Harbor部署</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/4tSEylPV0">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/4tSEylPV0.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/nYF6x-WNr">
+                  <h2 class="post-title">项目风险识别清单</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/nYF6x-WNr">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/nYF6x-WNr.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/nZC1pNLO0">
+                  <h2 class="post-title">缺陷等级定义</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/nZC1pNLO0">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/nZC1pNLO0.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/u5nXk2JTl">
+                  <h2 class="post-title">BUG编写规范</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/u5nXk2JTl">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/u5nXk2JTl.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/vwJHMiAcj">
+                  <h2 class="post-title">Linux基础命令记录</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/vwJHMiAcj">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/vwJHMiAcj.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://lm93129.github.io/blog//post/I4uADoACK">
+                  <h2 class="post-title">NGINX配置文件详解</h2>
+                </a>
+                <div class="post-date">
+                  2019-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+                <a class="right" href="https://lm93129.github.io/blog//post/I4uADoACK">
+                  <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/I4uADoACK.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+
+          <div class="pagination-container">
   
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/PlU021Ndb">
-        <h2 class="post-title">acme自动签发HTTPS证书--摘录官方wiki</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-07 ·
-        </time>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/PlU021Ndb" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/PlU021Ndb.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
   
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/48t-QeAvo">
-        <h2 class="post-title">ELK Metricbeat配置文件的修改</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-07 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="post-tag">
-            # 性能测试
-          </a>
-        
-          <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="post-tag">
-            # linux
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/48t-QeAvo" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/48t-QeAvo.png')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/WTAZgiW86">
-        <h2 class="post-title">ELK的Metricbeat性能监控组件部署方法</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-07 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="post-tag">
-            # 性能测试
-          </a>
-        
-          <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="post-tag">
-            # linux
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/WTAZgiW86" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/WTAZgiW86.png')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/gTgj2fXew">
-        <h2 class="post-title">Appium自动化测试简单入门</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-07 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/hv0-KOS_H" class="post-tag">
-            # 移动端测试
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/gTgj2fXew" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/gTgj2fXew.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/4tSEylPV0">
-        <h2 class="post-title">企业级Docker私有仓库之Harbor部署</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-07 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/XTf6QFya9" class="post-tag">
-            # docker
-          </a>
-        
-          <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" class="post-tag">
-            # 持续集成
-          </a>
-        
-          <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="post-tag">
-            # linux
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/4tSEylPV0" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/4tSEylPV0.png')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/nYF6x-WNr">
-        <h2 class="post-title">项目风险识别清单</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-04 ·
-        </time>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/nYF6x-WNr" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/nYF6x-WNr.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/nZC1pNLO0">
-        <h2 class="post-title">缺陷等级定义</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-04 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/ohD5pWWwI" class="post-tag">
-            # 功能测试
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/nZC1pNLO0" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/nZC1pNLO0.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/u5nXk2JTl">
-        <h2 class="post-title">BUG编写规范</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-04 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/ohD5pWWwI" class="post-tag">
-            # 功能测试
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/u5nXk2JTl" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/u5nXk2JTl.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/vwJHMiAcj">
-        <h2 class="post-title">Linux基础命令记录</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-04 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="post-tag">
-            # linux
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/vwJHMiAcj" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/vwJHMiAcj.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://lm93129.github.io/blog//post/I4uADoACK">
-        <h2 class="post-title">NGINX配置文件详解</h2>
-      </a>
-      <div class="post-info">
-        <time class="post-time">
-          · 2019-03-04 ·
-        </time>
-        
-          <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="post-tag">
-            # 性能测试
-          </a>
-        
-          <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="post-tag">
-            # linux
-          </a>
-        
-      </div>
-      
-        <a href="https://lm93129.github.io/blog//post/I4uADoACK" class="post-feature-image" style="background-image: url('https://lm93129.github.io/blog//post-images/I4uADoACK.jpg')">
-        </a>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
+    <a href="https://lm93129.github.io/blog//page/2/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
   
 </div>
 
-    
-        <div class="pagination-container">
-  
-  
-    <a href="https://lm93129.github.io/blog//page/2/" class="prev-page">下一页</a>
-  
-</div>
-
-    
-        <div class="site-footer">
-  Powered by Hve Notes
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-</script>
-
+        </div>
       </div>
     </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
   </body>
 </html>
