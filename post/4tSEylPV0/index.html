@@ -100,8 +100,10 @@ db_password = db_password #设置数据库密码，务必修改
 ssl_cert = #SSL证书的路径，仅在协议设置为https时应用。
 ssl_cert_key = #SSL密钥的路径，仅在协议设置为https时应用。</code></pre><p>其他的，可以参考github上的说明进行配置，比如邮件、LDAP登陆、存储库等配置。配置成功后运行下面的命令安装：<br><code>./install.sh</code><br>安装成功后，可以通过<a href="http://harbor.com/">http://harbor.com/</a> 访问。 默认管理员用户名/密码为admin / Harbor12345</p>
 <h2 id="docker客户端使用">Docker客户端使用</h2><p>如果Harbor默认使用的http协议,就需要在Docker client上的Dockerd服务增加–insecure-registry hub.wow<br>Centos7修改方式为:</p>
-<pre><code>vim /lib/systemd/system/docker.service
+<pre><code>vi /lib/systemd/system/docker.service
+#在ExecStart=/usr/bin/dockerd后面加上--insecure-registry harbor.com
 ExecStart=/usr/bin/dockerd --insecure-registry harbor.com
+#保存退出后，重启docker服务
 systemctl daemon-reload
 systemctl reload docker
 service restart docker</code></pre><h3 id="harbor的登陆和使用基本操作如下：">harbor的登陆和使用基本操作如下：</h3><p>登陆到harbor<br><code>docker login -u admin -p Harbor12345 harbor.com</code><br>本地基于mysql:latest创建tag。（需要先docker pull mysql:latest拉去官方镜像）<br><code>docker tag mysql:latest harbor.com/admin/mysql:latest</code><br>推送本地镜像mysql:latest 到hub.wow私有仓库<br><code>docker push harbor.com/admin/mysql:latest</code><br>拉取刚才上传的镜像<br><code>docker pull harbor.com/admin/mysql:latest</code></p>
