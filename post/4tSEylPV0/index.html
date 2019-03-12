@@ -106,7 +106,7 @@ ExecStart=/usr/bin/dockerd --insecure-registry harbor.com
 #保存退出后，重启docker服务
 systemctl daemon-reload
 systemctl reload docker
-service restart docker</code></pre><h3 id="harbor的登陆和使用基本操作如下：">harbor的登陆和使用基本操作如下：</h3><p>登陆到harbor<br><code>docker login -u admin -p Harbor12345 harbor.com</code><br>本地基于mysql:latest创建tag。（需要先docker pull mysql:latest拉去官方镜像）<br><code>docker tag mysql:latest harbor.com/admin/mysql:latest</code><br>推送本地镜像mysql:latest 到hub.wow私有仓库<br><code>docker push harbor.com/admin/mysql:latest</code><br>拉取刚才上传的镜像<br><code>docker pull harbor.com/admin/mysql:latest</code></p>
+service docker restart</code></pre><h3 id="harbor的登陆和使用基本操作如下：">harbor的登陆和使用基本操作如下：</h3><p>登陆到harbor<br><code>docker login -u admin -p Harbor12345 harbor.com</code><br>本地基于mysql:latest创建tag。（需要先docker pull mysql:latest拉去官方镜像）<br><code>docker tag mysql:latest harbor.com/admin/mysql:latest</code><br>推送本地镜像mysql:latest 到hub.wow私有仓库<br><code>docker push harbor.com/admin/mysql:latest</code><br>拉取刚才上传的镜像<br><code>docker pull harbor.com/admin/mysql:latest</code></p>
 <h2 id="harbor服务管理">Harbor服务管理</h2><pre><code>cd harbor/
 docker-compose -f ./docker-compose.yml [ up|down|ps|stop|start ]</code></pre>
             </div>
