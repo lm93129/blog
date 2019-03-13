@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>SonarQube 的安装与使用 | 浮生</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">SonarQube 的安装与使用</h2>
+            <div class="post-date">2019-03-13</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/j8PAuWkv5.png')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="简介">简介</h1><p>SonarQube(原名Sonar)是一个开源的代码质量管理系统,可以扫描项目中重复代码、编码标准、单元测试、代码覆盖率、代码复杂度、潜在Bug、注释等.</p>
+<p>支持Java、C/C++、C#、PHP、Flex、Groovy、JavaScript、Python等多种语言.</p>
+<p>代码扫码的好处在于通过配置规则扫描代码设计缺陷和代码优化从而提高代码的质量.<br>本文介绍使用docker技术搭建SonarQube环境并扫描代码.</p>
+<h1 id="环境搭建">环境搭建</h1><h2 id="快速启动">快速启动</h2><p>这种方式启动sonarqube是没有数据存储的,docker重新加载后数据不会reload数据.</p>
+<pre><code>docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube:lts</code></pre><p>浏览器打开:0.0.0.0:9000<br>帐号密码:admin、admin</p>
+<h2 id="全配置启动">全配置启动</h2><h3 id="docker启动postgres">docker启动postgres</h3><p>使用postgres作为数据存储,通过如下命令启动:</p>
+<pre><code>docker run --name postgres -e POSTGRES_PASSWORD=password -e POSTGRES_USER=sonar -p 5432:5432 -d postgres:9.4</code></pre><p>sonarqube不支持mysql5.5版本,最低支持5.6版本</p>
+<h3 id="docker启动sonarqube">docker启动sonarqube</h3><p>需要注意两点:</p>
+<ul>
+<li>需要先启动postgres,数据库会自动创建</li>
+<li>本地搭建ip地址不能写localhost,需要写内网ip<br>启动命令如下:<pre><code>docker run -d --name sonarqube \
+  -p 9000:9000 \
+  -p 9092:9092 \
+  -e sonar.jdbc.username=sonar \
+  -e sonar.jdbc.password=password \
+  -e sonar.jdbc.url=jdbc:postgresql://db:5432/sonar \
+      --link postgres:db \
+  sonarqube</code></pre>浏览器打开:0.0.0.0:9000<br>帐号密码:admin、admin</li>
+</ul>
+<h2 id="docker-compose启动">docker-compose启动</h2><p>先从官网下载sonarqube6.7版本，解压后重命名为sonarqube。在目录中新建一个docker-compose.yaml文件，内容如下：</p>
+<pre><code>version: &quot;3.3&quot;
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    ports:
+        - &quot;5432:5432&quot; 
+    environment:
+        - POSTGRES_USER=sonar 
+        - POSTGRES_PASSWORD=sonar
+    volumes:
+        - /var/lib/postgresql/data
+    networks:
+      main:
+        aliases:
+          - db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8088:8080
+    networks:
+      main:
+        aliases:
+          - adminer
+
+  sonarqube:
+    image: sonarqube:6.7-community
+    container_name: sonarqube
+    ports:
+      - &quot;9000:9000&quot;
+      - &quot;9092:9092&quot;
+    volumes:
+        - ~/sonarqube/conf:/opt/sonarqube/conf
+        - ~/sonarqube/data:/opt/sonarqube/data
+        - ~/sonarqube/extensions:/opt/sonarqube/extensions
+        - ~/sonarqube/elasticsearch:/opt/sonarqube/elasticsearch
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+    privileged: true
+    networks:
+      main:
+        aliases:
+          - sonarqube
+
+networks:
+  main:</code></pre><p>这样启动的好处是，可以方便的手动安装插件，也可以保证每次重启sonarqube服务之后，数据仍然保留。建议可以提前手动下载一些常用插件，如汉化，Android lint插件</p>
+<p>如果需要配置域名，可以自己用nginx做个反向代理就OK了。</p>
+<h3 id="效果">效果</h3><p>启动成功以后,第一次页登录成功后会设置token,这个token是以后被扫描代码工程中需要配置的,用于通过token的方式连接Sonarqube平台传数据结果<br><img src="https://i.loli.net/2019/03/13/5c88b8c0f4152.png" alt=""></p>
+<h1 id="安装插件">安装插件</h1><p>使用admin账户登陆sonar之后，在配置中点击应用市场，安装需要的插件<br>常用的插件有</p>
+<ul>
+<li>sonar-l10n-zh-plugin （汉化插件）</li>
+<li>sonar-android-plugin （Android代码规则）</li>
+<li>sonar-jacoco-plugin （jacoco代码覆盖率插件）</li>
+<li>sonar-java-plugin （Java代码规则插件，默认已经安装好了建议更新）</li>
+</ul>
+<h1 id="使用sonar扫描代码">使用sonar扫描代码</h1><h2 id="maven项目配置">maven项目配置</h2><p>直接在项目目录中运行如下命令</p>
+<pre><code>mvn sonar:sonar   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=token</code></pre><p>如果没有设置权限，也可以不写后面的token<br>扫描结果如下<br><img src="https://i.loli.net/2019/03/13/5c88ba87bc46c.png" alt=""></p>
+<h2 id="gradle项目配置">gradle项目配置</h2><p>gradle需要先配置下build.gradle文件，加入如下配置：</p>
+<pre><code>apply plugin: &quot;org.sonarqube&quot;
+    sonarqube {
+        properties {
+            property &quot;sonar.host.url&quot;, &quot;http://localhost:9000&quot;  //sonar管理系统地址
+            property &quot;sonar.login&quot;, &quot;admin&quot; // sonar管理系统账号
+            property &quot;sonar.password&quot;, &quot;admin&quot; // sonar管理系统密码
+            property &quot;sonar.sourceEncoding&quot;, &quot;UTF-8&quot;  //编码格式
+            property &quot;sonar.surefire.reportsPath&quot;, &quot;build/sonar&quot;  //soanr结果生成路径
+            property &quot;sonar.junit.reportsPath&quot;, &quot;build/sonar&quot;  //单元测试报告生成路径
+            property &quot;sonar.sources&quot;, &quot;src/main/java&quot;    //源代码路径
+            property &quot;sonar.projectName&quot;, &quot;xxxx&quot;  //项目名称
+            property &quot;sonar.language&quot;, &quot;java&quot;
+        }
+    }</code></pre><p>如果是android多模块开发的，只想要扫描其中一个模块，则需要在该模块的build.gradle文件中单独加入如上配置<br>然后如果不需要跳过单元测试，则直接运行：</p>
+<pre><code>./gradlew sonarqube </code></pre><p>需要跳过单元测试的话，后面加上<code>-x test</code></p>
+<h2 id="nodejs项目配置">nodejs项目配置</h2><p>nodejs的项目，需要先用npm安装一个sonar-scanner，运行命令<code>npm -g install sonar-scanner</code>安装。安装完成后再项目目录运行下面的命令：</p>
+<pre><code>sonar-scanner -Dsonar.host.url=http://localhost:9000  -Dsonar.login=token</code></pre><h1 id="总结">总结</h1><p>常见的sonar代码扫描如上，iOS由于没有使用过，所以不知道怎么配置，看教程像是很复杂的样子。等以后接触了，再来更新。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/NQwomkDOa" class="tag">
+                    sonarqube
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" class="tag">
+                    持续集成
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/PlU021Ndb">
+                  <h3 class="post-title">
+                    acme自动签发HTTPS证书--摘录官方wiki
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
