@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Jenkins的安装（docker）和简单的使用 | 浮生</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Jenkins的安装（docker）和简单的使用</h2>
+            <div class="post-date">2019-03-13</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/WRXr2XyC0.png')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="简介">简介</h1><p>Jenkins是开源CI&amp;CD软件领导者， 提供超过1000个插件来支持构建、部署、自动化， 满足任何项目的需要。</p>
+<h1 id="环境构建">环境构建</h1><h2 id="docker安装jenkins">docker安装Jenkins</h2><h3 id="环境配置">环境配置</h3><p>第一次使用 Jenkins，您需要：<br>机器要求：</p>
+<ul>
+<li>256 MB 内存，建议大于 512 MB</li>
+<li>10 GB 的硬盘空间（用于 Jenkins 和 Docker 镜像）</li>
+</ul>
+<p>需要安装以下软件：</p>
+<ul>
+<li>Java 8 ( JRE 或者 JDK 都可以)</li>
+<li>Docker （导航到网站顶部的Get Docker链接以访问适合您平台的Docker下载）</li>
+</ul>
+<p>docker的安装这里不多做描述，可以自行百度或者google。</p>
+<h3 id="docker的方式安装jenkins">docker的方式安装Jenkins</h3><p>运行下面的命令直接启动Jenkins</p>
+<pre><code>docker run \
+  -u root \
+    --name jenkins \
+  -d \ 
+  -p 8080:8080 \ 
+  -p 50000:50000 \ 
+  -v jenkins-data:/var/jenkins_home \ 
+  -v /var/run/docker.sock:/var/run/docker.sock \ 
+  jenkinsci/blueocean </code></pre><p>命令解释：</p>
+<ol>
+<li>-u root 是使用root账户，如果不加这个，则默认使用Jenkins账户</li>
+<li>-d 后台运行容器</li>
+<li>-p 8080:8080映射访问端口</li>
+<li>-p 50000:50000映射节点机通信端口</li>
+<li>-v jenkins-data:/var/jenkins_home 挂载数据卷，如果不使用数据卷的方式，也可以直接映射到本地磁盘。像这样<code>-v $HOME/jenkins:/var/jenkins_home</code></li>
+<li><code>-v /var/run/docker.sock:/var/run/docker.sock</code>挂载docker到容器，实现docker in docker，这样在容器中的Jenkins就可以使用docker命令</li>
+</ol>
+<h3 id="首次登陆jenkins">首次登陆Jenkins</h3><p>第一次访问Jenkins需要一个自动生成的密码来解锁，这个密码可以通过查看容器日志来获取.<br><img src="https://i.loli.net/2019/03/13/5c88f3b034470.png" alt=""><br>使用如下命令查看容器日志：</p>
+<pre><code>docker logs -f jenkins</code></pre><p><img src="https://i.loli.net/2019/03/13/5c88f3c5e0499.png" alt=""></p>
+<h3 id="安装插件">安装插件</h3><p>由于Jenkins的插件源默认是在国外的，国内下载会出现超时等无法下载的情况，所以需要加上一个国内源实现加速下载。方法如下：</p>
+<blockquote>
+<p>进入：系统管理 / 管理插件 / 高级 ，在 Update Site 中填入华为镜像源<a href="https://repo.huaweicloud.com/jenkins/update-center.json">https://repo.huaweicloud.com/jenkins/update-center.json</a></p>
+</blockquote>
+<p>设置完镜像源之后，就可以直接可选插件中，安装想要安装的插件了。常用的会需要安装maven、gradle、git、sonar等插件，需要自行安装。</p>
+<h2 id="项目接入-私有 git 仓库帐号配置（通用版）">项目接入-私有 Git 仓库帐号配置（通用版）</h2><h3 id="配置ssh凭据">配置ssh凭据</h3><p>在linux中生成一个ssh-key。使用命令<code>ssh-keygen</code>，然后一路回车即可生成2个文件，其中</p>
+<blockquote>
+<p>公钥内容在 ~/.ssh/id_rsa.pub<br>私有内容在 ~/.ssh/id_rsa</p>
+</blockquote>
+<p>将公钥导入到gitlab或者GitHub的SSH 密钥中。<br>然后将私钥导入到Jenkins的凭据中，方法如下：</p>
+<p>在 Jenkins -&gt;Credentials-&gt;System--&gt; Add credentials 新增一个凭据。选择SSH Username with private key<br><img src="https://i.loli.net/2019/03/13/5c88f5b61f058.png" alt=""><br>将私钥的内容完整的复制到里面，并且设置好git的用户名<br><img src="https://i.loli.net/2019/03/13/5c88f60d1ebc4.png" alt=""></p>
+<p>如果不想像上面那样配置ssh-key，也可以直接配置账户密码。</p>
+<h3 id="添加一个项目（多分支流水线）">添加一个项目（多分支流水线）</h3><h4 id="创建一个流水线">创建一个流水线</h4><p>在主页，点击Blue Ocean，然后创建一个流水线。选择git。按照步骤输入git地址，注意这里需要使用git协议的地址，而不是http协议的。<br><img src="https://i.loli.net/2019/03/14/5c89b0fa0bb79.png" alt=""><br>然后复制里面给出的Jenkins公钥到git的SSH 密钥中。这里不使用上面配置的凭据，因为这里会自动生成一个给你。<br>配置好了之后，就可以手动编写流水线了。<br><img src="https://i.loli.net/2019/03/14/5c89b2508f9bf.png" alt=""><br>设置代理，代理就是运行程序的节点，可以是docker，可以是k8s，也可以是指定的虚拟机或者物理机。设置成any，则是所有的节点都可以运行。然后设置一些环境变量。</p>
+<h4 id="第一步构建程序">第一步构建程序</h4><p>设置好了环境之后，第一步就是编译。<br><img src="https://i.loli.net/2019/03/14/5c89b307835f3.png" alt=""><br>新建一个shell脚本，然后输入maven的build命令（其他的程序构建则需要对应的构建命令和构建环境）</p>
+<h4 id="第二步扫描代码">第二步扫描代码</h4><p>扫描代码使用的命令可以查看我上一篇文章里面的sonarqube代码扫描，然后新建一个shell脚本步骤，写入命令即可</p>
+<h4 id="构建docker镜像（不需要构建docker镜像的可以省略）">构建docker镜像（不需要构建docker镜像的可以省略）</h4><p>这一步是从使用项目中的dockerfile文件，构建一个docker镜像，并上传到harbor中（关于部署和harbor的使用可以看之前的文章）。先新建一个pipeline scrip，然后输入如下代码。</p>
+<pre><code>def customImage = docker.build(&quot;harbor.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;)
+                    withDockerRegistry(credentialsId: &#39;har-test&#39;, url: &#39;http://harbor.com.cn&#39;)  {
+                    customImage.push(&quot;${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;) 
+                    customImage.push(&quot;latest&quot;)
+                    }</code></pre><p>上面的命令解释：</p>
+<ol>
+<li>使用docker build 构建一个符合harbor命名规则的镜像，其中${HAR_NAME}为环境变量中harbor的用户名，${JOB_NAME}为系统自带的环境变量，${env.GIT_BRANCH}-${env.BUILD_NUMBER}为系统自带的环境变量，可以用与生成本次构建的唯一tag</li>
+<li>withDockerRegistry命令为使用harbor的命令，使用harbor的登陆凭据为har-test，需要先在Jenkins的凭据中自己添加好。</li>
+<li>customImage.push命令为推送镜像到harbor，后面跟的是镜像的标签</li>
+</ol>
+<h3 id="其他构建流程">其他构建流程</h3><p>更详细的构建流程和pipeline文件编写，可以参考官网的中文教程。<a href="https://jenkins.io/zh/doc/tutorials/">Jenkins教程</a></p>
+<h2 id="jenkins换皮肤">Jenkins换皮肤</h2><p>打开css生成网址<a href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a> 选择你喜欢的风格，生成css<br>Jenkins中安装Jenkins Simple Theme Plugin插件，然后再系统设置中找到Theme设置，把css复制进去，保存即可改变Jenkins的原生界面</p>
+<h2 id="jenkins添加节点机">Jenkins添加节点机</h2><p>在系统管理中选择节点管理，选择添加一个节点<br><img src="https://i.loli.net/2019/03/14/5c89c4af34dc9.png" alt=""><br>添加完成之后，点击添加后的节点，然后点击relaunch agent，等会就自动连接好了，如果提示找不到Java，则是节点需要安装好Java，或者在添加节点的时候设置好Java_home</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/tNyzxcM7b" class="tag">
+                    Jenkins
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" class="tag">
+                    持续集成
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/j8PAuWkv5">
+                  <h3 class="post-title">
+                    SonarQube 的安装（docker）与使用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

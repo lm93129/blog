@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>SonarQube 的安装与使用 | 浮生</title>
+<title>SonarQube 的安装（docker）与使用 | 浮生</title>
 <meta name="description" content="温故而知新  fs.tn">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -76,7 +76,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">SonarQube 的安装与使用</h2>
+            <h2 class="post-title">SonarQube 的安装（docker）与使用</h2>
             <div class="post-date">2019-03-13</div>
             
               <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/j8PAuWkv5.png')">
@@ -99,7 +99,7 @@
   -e sonar.jdbc.username=sonar \
   -e sonar.jdbc.password=password \
   -e sonar.jdbc.url=jdbc:postgresql://db:5432/sonar \
-      --link postgres:db \
+  --link postgres:db \
   sonarqube</code></pre>浏览器打开:0.0.0.0:9000<br>帐号密码:admin、admin</li>
 </ul>
 <h2 id="docker-compose启动">docker-compose启动</h2><p>先从官网下载sonarqube6.7版本，解压后重命名为sonarqube。在目录中新建一个docker-compose.yaml文件，内容如下：</p>
