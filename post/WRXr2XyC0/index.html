@@ -142,6 +142,7 @@
 <li>customImage.push命令为推送镜像到harbor，后面跟的是镜像的标签</li>
 </ol>
 <h3 id="其他构建流程">其他构建流程</h3><p>更详细的构建流程和pipeline文件编写，可以参考官网的中文教程。<a href="https://jenkins.io/zh/doc/tutorials/">Jenkins教程</a></p>
+<h3 id="pipeline 文件编写">pipeline 文件编写</h3><p>可以根据上面的官网教程，编写一个Jenkinsfile文件在项目中，这样在使用blue ocean创建多分支流水线的时候，会自动读取项目中的Jenkinsfile文件中的pipeline脚本。具体编写就不在这里列举了。</p>
 <h2 id="jenkins换皮肤">Jenkins换皮肤</h2><p>打开css生成网址<a href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a> 选择你喜欢的风格，生成css<br>Jenkins中安装Jenkins Simple Theme Plugin插件，然后再系统设置中找到Theme设置，把css复制进去，保存即可改变Jenkins的原生界面</p>
 <h2 id="jenkins添加节点机">Jenkins添加节点机</h2><p>在系统管理中选择节点管理，选择添加一个节点<br><img src="https://i.loli.net/2019/03/14/5c89c4af34dc9.png" alt=""><br>添加完成之后，点击添加后的节点，然后点击relaunch agent，等会就自动连接好了，如果提示找不到Java，则是节点需要安装好Java，或者在添加节点的时候设置好Java_home</p>
 

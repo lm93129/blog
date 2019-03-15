@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Jenkinsfile编写简单说明（pipeline scrip） | 浮生</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Jenkinsfile编写简单说明（pipeline scrip）</h2>
+            <div class="post-date">2019-03-14</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/4vvRZ8Q6x.png')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="简介">简介</h1><p>Jenkins流水线是一套插件，它支持实现和集成持续交付流水线到 Jenkins。流水线提供了一组可扩展的工具，用于通过流水线 DSL将简单到复杂的交付流水线建模为 &quot;代码&quot;。本文只是简单的介绍了下Jenkinsfile文件的编写，还有许多不足和可以优化改进的地方。</p>
+<h1 id="通过 blue ocean 创建">通过 Blue Ocean 创建</h1><p>在上一篇Jenkins的简单使用文章中，已经介绍了使用blue ocean图形化创建pipeline。但是这种方式，创建出来的pipeline往往不符合我们的要求，直接写脚本的形式，可能更容易理解一点。所以本文主要介绍pipeline脚本的编写，再编写Jenkinsfile之前，最好先看看官方的教程，了解Jenkins的pipeline语法。</p>
+<h1 id="编写jenkinsfile（pipeline脚本）">编写Jenkinsfile（pipeline脚本）</h1><h2 id="maven项目构建">maven项目构建</h2><p>先附上完整的pipeline脚本，然后再对其中的命令做对应的解释。而官方有的基础命令，则本文不再多做解释了，建议直接访问官网<a href="https://jenkins.io/zh/doc/book/pipeline/syntax/">流水线语法参考</a> 学习其中的命令</p>
+<h3 id="maven的pipeline">maven的pipeline</h3><pre><code>pipeline {
+    //设置环境变量
+    environment {
+        CI = &#39;true&#39;
+        HAR_NAME = &quot;test&quot;
+        HAR_PASS = &quot;Test12345&quot;
+        SONARURL = &quot;http://sonar.com&quot;
+        SONARURL_token = &quot;bb99xxxxxxx0bad5cf4&quot;
+        CON_PROT = &quot;8002&quot;
+        TEST_ENV = &quot;XXXX-test&quot;
+        DEV_ENV = &quot;XXXX-dev&quot;
+    }
+    agent any
+        //设置构建的参数
+        parameters {
+        //设置环境部署参数
+        choice choices: [&#39;test&#39;, &#39;dev&#39;, &#39;not&#39;], description: &#39;选择需要部署的环境,不需要部署则选择not&#39;, name: &#39;DEPLOY_TO&#39;
+        //读取git的tag数据，该功能需要安装插件
+        listGitBranches branchFilter: &#39;origin/(.*)&#39;, credentialsId: &#39;gitlab&#39;, defaultValue: &#39;master&#39;, name: &#39;tag&#39;, quickFilterEnabled: false, remoteURL: &#39;http://gitlab.com.cn/xxx/xxx.git&#39;, selectedValue: &#39;NONE&#39;, sortMode: &#39;DESCENDING_SMART&#39;, tagFilter: &#39;*&#39;, type: &#39;PT_TAG&#39;
+        //设置钉钉的webhook
+        string defaultValue: &#39;https://oapi.dingtalk.com/robot/send?access_token=e706xxxf835279xxxx9453xxxxxx1561&#39;, description: &#39;钉钉webhook通知地址&#39;, name: &#39;webhook&#39;, trim: false
+        //设置字符参数callphone，默认值是18677371111
+        string defaultValue: &#39;18677371111&#39;, description: &#39;通知人&#39;, name: &#39;callphone&#39;, trim: false
+    }
+    //设置构建需要用到的工具，该工具需要先在Jenkins中配置好
+    tools {
+        maven &quot;maven3.5.4&quot;
+    }
+    stages {
+        stage(&#39;构建&#39;) {
+            steps {
+                echo &#39;开始构建&#39;
+                //拉去git代码，需要先配置好相应凭据
+                git credentialsId: &#39;gitlab&#39;, url: &#39;http://gitlab.com.cn/xxx/xxx.git&#39;
+                //切换分支
+                sh &#39;git checkout ${tag}&#39;
+                //构建
+                sh &#39;mvn -DskipTests clean package&#39;
+                echo &#39;构建成功&#39;
+            }
+        }
+        stage(&#39;代码扫描&#39;) {
+            steps {
+                echo &#39;开始代码扫描&#39;
+                sh &#39;mvn sonar:sonar -Dsonar.host.url=${SONARURL} -Dsonar.login=${SONARURL_token}&#39;
+                echo &#39;代码扫描结束&#39;
+            }
+        }
+        stage(&#39;镜像构建&#39;) {
+            steps {
+                echo &#39;构建镜像并上传到harbor&#39;
+                script {
+                    //登陆使用的凭据需要提前在Jenkins中添加好                
+                    def customImage = docker.build(&quot;harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;)
+                    withDockerRegistry(credentialsId: &#39;har-test&#39;, url: &#39;http://harbor.asoco.com.cn&#39;)  {
+                    customImage.push(&quot;${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;) 
+                    customImage.push(&quot;latest&quot;)
+                    }
+                }
+                //这里为了节约空间，所以在上传到harbor之后，就删除本地的镜像
+                echo &#39;删除本地镜像&#39;
+                sh &quot;docker image rm harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;
+            }
+        }
+        stage(&#39;测试环境部署&#39;) {
+            //定义部署的节点机
+            agent { label &quot;${TEST_ENV}&quot; }
+            //定义该步骤不拉取代码
+            options { skipDefaultCheckout() }
+            //当构建参数为test的时候，才执行该步骤
+            when {
+                beforeAgent true
+                environment ignoreCase: true, name: &#39;DEPLOY_TO&#39;, value: &#39;test&#39;
+            }
+            steps {
+                echo &#39;开始环境部署&#39;
+                //登陆harbor
+                sh &quot;docker login -u ${HAR_NAME} -p ${HAR_PASS} harbor.asoco.com.cn&quot;
+                //拉去镜像
+                sh &quot;docker pull harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:latest&quot;
+                //删除和停止原本的容器
+                sh &#39;&#39;&#39;if [ $(docker ps -aq --filter name=^/${JOB_NAME}$) ]; then docker stop ${JOB_NAME} &amp;&amp; docker rm ${JOB_NAME};fi&#39;&#39;&#39;
+                //自动部署最新版本
+                sh &#39;&#39;&#39;docker run -d --name ${JOB_NAME} -p ${CON_PROT}:${CON_PROT} harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:latest --spring.profiles.active=test &#39;&#39;&#39;
+                echo &#39;部署结束&#39;
+            }
+        }
+        stage(&#39;接口测试&#39;) {
+            when {
+                branch &#39;master&#39;
+            }
+            steps {
+                echo &#39;开始接口测试&#39;
+                sh &#39;&#39;&#39;
+                curl &#39;yapi.com&#39;
+                &#39;&#39;&#39;
+                echo &#39;接口测试结束&#39;
+            }
+        }
+    }
+    post {
+        failure {
+        //钉钉通知，使用的是一个简单的shell脚本，传入相关参数即可
+            sh &quot;ding.sh ${webhook} ${callphone} ${JOB_NAME} ${BUILD_ID} ${BUILD_TAG} ${esdb_tag} 失败&quot;
+        }
+        success {
+        //钉钉通知
+            sh &quot;ding.sh ${webhook} ${callphone} ${JOB_NAME} ${BUILD_ID} ${BUILD_TAG} ${esdb_tag} 失败&quot;
+        }
+    }
+}   </code></pre><h3 id="dockerfile文件">dockerfile文件</h3><p>上面的Jenkinsfile中，是构建为docker镜像的形式，所以需要一个dockerfile文件，通常像下面这个就可以了。设置了时区为中国时区。基础镜像也是使用alpine的，体积比较小。</p>
+<pre><code>FROM java:8-jdk-alpine
+VOLUME /tmp
+ADD /target/*.jar /app.jar
+RUN apk --no-cache add tzdata  &amp;&amp; \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; \
+    echo &quot;Asia/Shanghai&quot; &gt; /etc/timezone 
+ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;, &quot;app.jar&quot;]</code></pre><h3 id="ding.sh文件">ding.sh文件</h3><p>构建完成之后，我们需要知道构建结果，就可以使用钉钉群的webhook功能，当然也有邮件、微信，qq等其他方式通知，这个就需要去自己探索了。这里给出上面Jenkinsfile中的ding.sh文件，里面需要修改下Jenkins地址为自己的。</p>
+<pre><code>#!/bin/sh
+
+usage () {
+  echo &quot;Usage: ding.sh [webhook] [cell-phone number] [JOB_NAME] [BUILD_ID] [BUILD_TAG] [deploy_env] [STATUS]&quot;;
+  echo &quot;       [webhook]: 钉钉聊天机器人webhook。&quot;;
+  echo &quot;       [cell-phone number]: 要@的成员手机号。&quot;;
+  echo &quot;       [JOB_NAME]: Jenkins的构建项目名&quot;;
+  echo &quot;       [BUILD_ID]: Jenkins的构建ID&quot;;
+  echo &quot;       [BUILD_TAG]: 构建的分支&quot;;
+  echo &quot;       [deploy_env]: 部署的环境&quot;;
+  echo &quot;       [STATUS]: 状态&quot;;
+  exit 1;
+}
+
+WEB_HOOK=$1    
+
+AT=$2
+
+JOB_NAME=$3
+
+BUILD_ID=$4
+
+BUILD_TAG=$5
+
+deploy_env=$6
+
+STATUS=$7
+
+TIME=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)
+
+
+shift 2
+
+make(){
+curl ${WEB_HOOK} -H &quot;Content-type: application/json&quot; -X POST -d &quot;
+{
+     &quot;msgtype&quot;: &#39;markdown&#39;,
+     &quot;markdown&quot;: {
+     &quot;title&quot;:&#39;持续集成机器人&#39;,
+     &quot;text&quot;:&#39;
+# CI/CD机器人：构建${STATUS}\n\n 执行任务:代码扫描+构建+${deploy_env}环境部署\n\n 构建时间:${TIME} \n\n 项目名称:${JOB_NAME}\n\n 构建编号:${BUILD_ID} \n\n 构建版本:${BUILD_TAG}\n\n [点击查看](http://Jenkins.com/blue/organizations/jenkins/${JOB_NAME}/detail/${JOB_NAME}/${BUILD_ID})
+
+@${AT}
+&#39;
+
+     },
+      &quot;at&quot;: {
+          &quot;atMobiles&quot;: [
+              &quot;$AT&quot;
+          ],
+          &quot;isAtAll&quot;: false
+      }
+
+}&quot;
+
+}
+
+make $@
+</code></pre>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/tNyzxcM7b" class="tag">
+                    Jenkins
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/XTf6QFya9" class="tag">
+                    docker
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" class="tag">
+                    持续集成
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/WRXr2XyC0">
+                  <h3 class="post-title">
+                    Jenkins的安装（docker）和简单的使用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
