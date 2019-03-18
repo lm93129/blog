@@ -195,7 +195,39 @@ networks:
     }</code></pre><p>如果是android多模块开发的，只想要扫描其中一个模块，则需要在该模块的build.gradle文件中单独加入如上配置<br>然后如果不需要跳过单元测试，则直接运行：</p>
 <pre><code>./gradlew sonarqube </code></pre><p>需要跳过单元测试的话，后面加上<code>-x test</code></p>
 <h2 id="nodejs项目配置">nodejs项目配置</h2><p>nodejs的项目，需要先用npm安装一个sonar-scanner，运行命令<code>npm -g install sonar-scanner</code>安装。安装完成后再项目目录运行下面的命令：</p>
-<pre><code>sonar-scanner -Dsonar.host.url=http://localhost:9000  -Dsonar.login=token</code></pre><h1 id="总结">总结</h1><p>常见的sonar代码扫描如上，iOS由于没有使用过，所以不知道怎么配置，看教程像是很复杂的样子。等以后接触了，再来更新。</p>
+<pre><code>sonar-scanner -Dsonar.host.url=http://localhost:9000  -Dsonar.login=token</code></pre><h2 id="sonar-project.properties文件示例">sonar-project.properties文件示例</h2><p>可以通过编写sonar-project.properties文件，实现自定义扫描代码。</p>
+<pre><code>#----- Default SonarQube server
+#sonar.host.url=http://sonar.com.cn
+# 项目key
+sonar.projectKey=xxxx
+# 项目名称
+sonar.projectName=aaaaa
+# 项目版本，可以写死，也可以引用变量
+sonar.projectVersion=1.0.0
+# 源文件编码
+sonar.sourceEncoding=UTF-8
+# 源文件语言
+sonar.language=java
+# path to source directories (required)
+# 源代码目录，如果多个使用&quot;,&quot;分割 例如：mode1/src/main,mode2/src/main
+sonar.sources=src/main
+# 单元测试目录，如果多个使用&quot;,&quot;分割 例如：mode1/src/test,mode2/src/test
+sonar.tests=src/test
+# path to project binaries (optional), for example directory of Java bytecode
+# java字节码目录
+#sonar.binaries=binDir
+# Exclude the test source
+# 忽略的目录
+#sonar.exclusions=*/src/test/**/*
+# 单元测试报告目录
+sonar.junit.reportsPath=target/surefire-reports
+# 代码覆盖率插件
+sonar.java.coveragePlugin=jacoco
+# jacoco.exec文件路径
+sonar.jacoco.reportPath=target/coverage-reports/jacoco.exec
+# 这个没搞懂，官方示例是配置成jacoco.exec文件路径
+sonar.jacoco.itReportPath=target/coverage-reports/jacoco-it.exec</code></pre><p>将该文件放入项目目录，然后运行<code>sonar-scanner -X</code>进行代码扫描</p>
+<h1 id="总结">总结</h1><p>常见的sonar代码扫描如上，iOS由于没有使用过，所以不知道怎么配置，看教程像是很复杂的样子。等以后接触了，再来更新。</p>
 
             </div>
             
