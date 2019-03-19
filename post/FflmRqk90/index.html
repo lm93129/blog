@@ -202,7 +202,7 @@ RUN mkdir -p /var/lib/jenkins/workspace
 RUN mkdir -p /home/jenkins
 RUN chmod 777 /home/jenkins
 RUN chmod 777 /var/lib/jenkins/workspace
-RUN chmod 777 $ANDROID_HOME/.android</code></pre><p>保存上面的代码为Dockerfile，然后运行<code>docker build -t android_builder:v1 .</code> 就可以构建镜像<br>这个镜像可以根据需要自己进行扩展，比如我这里只有android25-28的。如果你需要其他的，也可以自己再加。</p>
+RUN chmod 777 $ANDROID_HOME/.android</code></pre><p>保存上面的代码为Dockerfile，然后运行<code>docker build -t android_builder:v1 .</code> 就可以构建镜像。构建过程，需要下载谷歌的东西，所以国内网络可能会有问题，请注意网络，或者自行再构建过程中加入代理，我这里使用国外的服务器构建的，所以没有该问题。<br>这个镜像可以根据需要自己进行扩展，比如我这里只有android25-28的。如果你需要其他的，也可以自己再加。</p>
 <h1 id="使用方法">使用方法</h1><h2 id="直接使用镜像">直接使用镜像</h2><p>我们可以将android项目目录挂载到容器中，然后运行命令即可。例如：</p>
 <pre><code>docker run -it --rm -v /home/android:/home/builder/workdir -u 0:0 android_builder:v1 /bin/bash</code></pre><p>然后进入/home/builder/workdir中运行构建命令即可，上面使用了--rm命令，所以再容器关闭后会自动销毁。</p>
 <h2 id="jenkins中使用镜像">Jenkins中使用镜像</h2><p>直接贴上pipeline的代码，其中镜像可以挂载/root/.gradle目录，可以实现不需要每次都下载依赖。然后关于蒲公英的上传，这里只是做了一个示例。这个脚本里面还可以再扩展下，比如构建完成之后钉钉通知下载app之类的</p>
