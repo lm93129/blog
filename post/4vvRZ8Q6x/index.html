@@ -155,15 +155,15 @@
                 echo &#39;构建镜像并上传到harbor&#39;
                 script {
                     //登陆使用的凭据需要提前在Jenkins中添加好                
-                    def customImage = docker.build(&quot;harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;)
-                    withDockerRegistry(credentialsId: &#39;har-test&#39;, url: &#39;http://harbor.asoco.com.cn&#39;)  {
+                    def customImage = docker.build(&quot;harbor.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;)
+                    withDockerRegistry(credentialsId: &#39;har-test&#39;, url: &#39;http://harbor.com.cn&#39;)  {
                     customImage.push(&quot;${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;) 
                     customImage.push(&quot;latest&quot;)
                     }
                 }
                 //这里为了节约空间，所以在上传到harbor之后，就删除本地的镜像
                 echo &#39;删除本地镜像&#39;
-                sh &quot;docker image rm harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;
+                sh &quot;docker image rm harbor.com.cn/${HAR_NAME}/${JOB_NAME}:${env.GIT_BRANCH}-${env.BUILD_NUMBER}&quot;
             }
         }
         stage(&#39;测试环境部署&#39;) {
@@ -179,13 +179,13 @@
             steps {
                 echo &#39;开始环境部署&#39;
                 //登陆harbor
-                sh &quot;docker login -u ${HAR_NAME} -p ${HAR_PASS} harbor.asoco.com.cn&quot;
+                sh &quot;docker login -u ${HAR_NAME} -p ${HAR_PASS} harbor.com.cn&quot;
                 //拉去镜像
-                sh &quot;docker pull harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:latest&quot;
+                sh &quot;docker pull harbor.com.cn/${HAR_NAME}/${JOB_NAME}:latest&quot;
                 //删除和停止原本的容器
                 sh &#39;&#39;&#39;if [ $(docker ps -aq --filter name=^/${JOB_NAME}$) ]; then docker stop ${JOB_NAME} &amp;&amp; docker rm ${JOB_NAME};fi&#39;&#39;&#39;
                 //自动部署最新版本
-                sh &#39;&#39;&#39;docker run -d --name ${JOB_NAME} -p ${CON_PROT}:${CON_PROT} harbor.asoco.com.cn/${HAR_NAME}/${JOB_NAME}:latest --spring.profiles.active=test &#39;&#39;&#39;
+                sh &#39;&#39;&#39;docker run -d --name ${JOB_NAME} -p ${CON_PROT}:${CON_PROT} harbor.com.cn/${HAR_NAME}/${JOB_NAME}:latest --spring.profiles.active=test &#39;&#39;&#39;
                 echo &#39;部署结束&#39;
             }
         }
