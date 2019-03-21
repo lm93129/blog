@@ -116,6 +116,7 @@
   -u root \
   --name jenkins \
   -d \ 
+  --restart always 
   -p 8080:8080 \ 
   -p 50000:50000 \ 
   -v jenkins-data:/var/jenkins_home \ 
@@ -124,6 +125,7 @@
 <ol>
 <li>-u root 是使用root账户，如果不加这个，则默认使用Jenkins账户</li>
 <li>-d 后台运行容器</li>
+<li>--restart always 可以让Jenkins自动重启</li>
 <li>-p 8080:8080映射访问端口</li>
 <li>-p 50000:50000映射节点机通信端口</li>
 <li>-v jenkins-data:/var/jenkins_home 挂载数据卷，如果不使用数据卷的方式，也可以直接映射到本地磁盘。像这样<code>-v $HOME/jenkins:/var/jenkins_home</code></li>
