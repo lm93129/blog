@@ -100,7 +100,7 @@
             
             <div class="post-content">
               <h2 id="以下均为 centos7 环境下的安装的命令，其他系统 yum 命令无法使用。">以下均为 centos7 环境下的安装的命令，其他系统 yum 命令无法使用。</h2><h4 id="docker 方式部署的需要先安装 docker">docker 方式部署的需要先安装 docker</h4><p>建议在拿到虚拟机之后，可以运行下面的脚本一键安装如 git、docker 等基础组件且会自动校对时间：</p>
-<pre><code>wget https://qcloud.coding.net/u/lm93129/p/mysave/git/raw/master/myshell.sh &amp;&amp; bash myshell.sh</code></pre><h3 id="centos7 系统修改为国内阿里源">centos7 系统修改为国内阿里源</h3><pre><code>#yum源
+<pre><code>wget -O myshell.sh https://fs.tn/myshell.sh &amp;&amp; bash myshell.sh</code></pre><h3 id="centos7 系统修改为国内阿里源">centos7 系统修改为国内阿里源</h3><pre><code>#yum源
 sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 #epel源
 sudo wget -P /etc/yum.repos.d/ http://mirrors.aliyun.com/repo/epel-7.repo
