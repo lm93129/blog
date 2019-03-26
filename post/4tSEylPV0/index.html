@@ -106,7 +106,7 @@
 <li>Python-2.7.5(系统默认)</li>
 </ul>
 <h2 id="docker及docker-compose安装">Docker及Docker-compose安装</h2><p>运行下面的脚本安装docker和docker-compose</p>
-<pre><code>wget https://fs.tn/myshell.sh &amp;&amp; bash myshell.sh</code></pre><h2 id="harbor部署配置">Harbor部署配置</h2><p>下载harbor的离线安装包，目前最新版本为1.7.4.如果需要安装别的版本，可以自行到github上下载其他版本的离线安装包</p>
+<pre><code>wget -O myshell.sh https://fs.tn/myshell.sh &amp;&amp; bash myshell.sh</code></pre><h2 id="harbor部署配置">Harbor部署配置</h2><p>下载harbor的离线安装包，目前最新版本为1.7.4.如果需要安装别的版本，可以自行到github上下载其他版本的离线安装包</p>
 <pre><code>wget https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.4.tgz
 tar xf harbor-offline-installer-v1.1.2.tgz
 cd harbor/</code></pre><p>运行<code>vim harbor.cfg</code> 编辑配置文件</p>
