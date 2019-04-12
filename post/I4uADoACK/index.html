@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>NGINX配置文件详解 | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">NGINX配置文件详解</h2>
+            <div class="post-date">2019-03-04</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/I4uADoACK.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h3 id="nginx配置文件注释">nginx配置文件注释</h3>
+<pre><code>user root; #设置nginx权限用户
+worker_processes  auto; #工作进程：数目。根据硬件调整，通常等于CPU数量或者2倍于CPU。
+
+events {
+    worker_connections  32768; #没个工作进程的最大连接数量。根据硬件调整，和前面工作进程配合起来用，尽量大，但是别把cpu跑到100%就行
+    multi_accept on; #告诉nginx收到一个新连接通知后接受尽可能多的连接。
+}
+
+proxy_cache_path /nginx1.13.2/temp/cache_temp levels=1:2 keys_zone=cache_one:500m inactive=1d max_size=40g; #设置内存缓存空间大小为500MB，1天没有被访问的内容自动清除，硬盘缓存空间大小为40GB。
+
+gzip  on; #开启gzip压缩
+gzip_comp_level 3; #压缩质量等级，越大压缩的效果越好，但是cpu消耗越高，通常为3即可
+gzip_proxied any; #允许或者禁止压缩基于请求和响应的响应流。我们设置为any，意味着将会压缩所有的请求，开启反向代理后需要设置。
+gzip_min_length 1k; #设置对数据启用压缩的最少字节数。如果一个请求小于1000字节，我们最好不要压缩它，因为压缩这些小的数据会降低处理此请求的所有进程的速度。
+gzip_types text/plain application/x-javascript application/javascript text/javascript text/css application/xml application/x-httpd-php image/jpeg image/gif image/png;  #设置需要压缩的数据格式，以上为压缩图片格式、css、js和文本
+gzip_buffers 32 4k;  #设置系统获取几个单位的缓存用于存储gzip的压缩结果数据流。
+gzip_disable &quot;MSIE[1-6]\.&quot;;  #设置IE 1-6版本不压缩
+gzip_vary on;  #根据客户端的HTTP头来判断，是否需要压缩
+
+upstream gfmh {             # 负载均衡服务器设置，设置名字为gfmh
+    ip_hash;  # 基于IPhash的模式访问 如果不设置，默认为轮询模式
+    server 192.168.1.46:8080 ; #分别对应三台web服务器
+    server 192.168.1.134:8080 ; 
+    server 192.168.1.134:8080 ; 
+}  
+
+#负载均衡server的配置
+server {
+        listen       8888;  #设置监听的端口 生产环境应该为80或者443
+        server_name  192.1
+    location /phymcms   #反向代理目录
+    {
+        proxy_pass http://gfmh;  #反向代理到负载均衡上
+        index index.html index.htm; #默认web文件
+        proxy_set_header Host $host:$server_port;  #传递IP和端口
+        proxy_set_header X-Real-IP $remote_addr; #传递真实IP地址
+        proxy_set_header X-Real-port $remote_port; #传递真实端口
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
+        proxy_set_header REMOTE-HOST $remote_addr; #设置http头的地址
+        
+        #缓存相关配置
+        proxy_cache cache_one;  #设置缓存的目录cache_one
+        proxy_cache_key $host$request_uri$is_args$args;#设置缓存的key
+        proxy_cache_valid 200 304 301 302 1h;  #设置缓存时间
+        
+        #持久化连接相关配置
+        proxy_connect_timeout 30s; #设置连接超时时间
+        proxy_read_timeout 86400s; #设置超时时间
+        proxy_send_timeout 30s; #设置超时时间
+        proxy_http_version 1.1; #设置http版本
+        proxy_set_header Upgrade $http_upgrade; #设置刷新
+        proxy_set_header Connection &quot;upgrade&quot;; #设置http刷新头
+        add_header X-Cache $upstream_cache_status; #设置负载均衡缓存状态头
+        expires 12h; 
+    }
+
+#反向代理的server配置说明
+server {
+    listen	 8081;
+    server_name  192.168.1.217;
+
+    proxy_set_header           Host $host;
+    proxy_set_header           X-Real-IP $remote_addr;
+    proxy_set_header           X-Forwarded-For $proxy_add_x_forwarded_for;
+    add_header Access-Control-Allow-Origin *;
+
+    location /server-status #开启nginx状态监控
+    {
+        stub_status on;
+        access_log  /var/log/nginx/status.access.log;
+    }
+
+    location ^~ /app-api-server/ #反向代理到API服务器
+    {
+        proxy_pass  http://192.168.1.154:8765/app-api-server/;
+    }
+
+    location / #反向代理到本地80端口
+    {
+        proxy_pass http://127.0.0.1:80;
+    }
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/YESFQ3hzt">
+                  <h3 class="post-title">
+                    开启jmx监控tomcat各项性能
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

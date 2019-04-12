@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>缺陷等级定义 | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">缺陷等级定义</h2>
+            <div class="post-date">2019-03-04</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/nZC1pNLO0.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="一级紧急">一级（紧急）</h1>
+<ol>
+<li>
+<p>导致操作系统死机、重启、自动关闭、内存泄漏等缺陷；</p>
+</li>
+<li>
+<p>导致操作系统无响应、服务未启动（或启动后关闭）等缺陷；</p>
+</li>
+<li>
+<p>应用模块无法启动或异常退出、停止工作；</p>
+</li>
+<li>
+<p>导致用户数据丢失、损 坏或严重的数值计算错误；</p>
+</li>
+<li>
+<p>任何导致应用无法提供服务或需要重启才能继续使用的情况；</p>
+</li>
+<li>
+<p>功能设计与需求严重不符（需要以总体提供的功能设计说明为依据进行判定）；</p>
+</li>
+<li>
+<p>其他导致无法继续测试的缺陷；</p>
+</li>
+<li>
+<p>系统存在严重的安全漏洞。</p>
+</li>
+</ol>
+<h1 id="二级-严重">二级 (严重）</h1>
+<ol>
+<li>
+<p>基本业务功能未实现（需要以总体提供的功能设计说明为依据进行判定）；</p>
+</li>
+<li>
+<p>功能错误，或功能不能持续正常实现等问题；</p>
+</li>
+<li>
+<p>数据存储或展示错误；</p>
+</li>
+<li>
+<p>轻微的数值计算错误；</p>
+</li>
+<li>
+<p>应用所提供的功能或服务受到影响的错误；</p>
+</li>
+<li>
+<p>应用造成操作系统响应缓慢（需要以总体提供的系统性能指标为依据进行判定）；</p>
+</li>
+<li>
+<p>应用内流程和分支无法执行，影响用户使用的缺陷；</p>
+</li>
+<li>
+<p>有效性、可靠性等问题：例如缺少验证，导致系统出错或无法执行流程的问题；</p>
+</li>
+<li>
+<p>产品存在严重的兼容性问题；</p>
+</li>
+<li>
+<p>部署文档错误，导致无法成功部署。</p>
+</li>
+</ol>
+<h1 id="三级普通">三级（普通）</h1>
+<ol>
+<li>
+<p>不影响功能实现的其他缺陷，主要为系统易用性方面；</p>
+</li>
+<li>
+<p>未优化的性能缺陷，例如应用系统内响应较慢，或在数据较多时响应慢；</p>
+</li>
+<li>
+<p>操作界面错误，例如界面元素、光标跳转或定位、指示性语句错误；</p>
+</li>
+<li>
+<p>需要有提示的地方没有提示，或者提示不能引导用户正确操作的。</p>
+</li>
+</ol>
+<h1 id="四级轻微">四级（轻微)</h1>
+<ol>
+<li>
+<p>对应用有一定影响但是触发条件极端，不在用户一般操作范围内的缺陷；</p>
+</li>
+<li>
+<p>轻微、提示类缺陷，展示顺序、、错字、字体和 UI 等不影响使用的缺陷；</p>
+</li>
+<li>
+<p>用户使用不便或易出现操作错误；</p>
+</li>
+<li>
+<p>用户难以理解的功能或操作步骤；</p>
+</li>
+<li>
+<p>建议类：界面设计、描述更改、流程优化等。</p>
+</li>
+</ol>
+<h3 id="对偶发问题的处理">对偶发问题的处理</h3>
+<p>在测试中偶然出现的问题，都需要进行记录跟踪，如果在测试过程中无法再次触发，或者触发几率很低（小于 1/1000）则此问题记录为四级 BUG（下个版本需要继续验证），如果测试过程中频繁出现，触发几率较高（大于 1/1000）的缺陷记为三级bug（需要跟踪的问题）。</p>
+<p>对于未复现的缺陷，测试人员不应随意关闭。应该多次复现尝试之后，且和研发、产品经理共同确认过后予以关闭。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/ohD5pWWwI" class="tag">
+                    功能测试
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/u5nXk2JTl">
+                  <h3 class="post-title">
+                    BUG编写规范
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

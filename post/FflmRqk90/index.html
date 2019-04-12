@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用docker编译Android源码（支持Jenkins） | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用docker编译Android源码（支持Jenkins）</h2>
+            <div class="post-date">2019-03-19</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/FflmRqk90.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="思考">思考</h1>
+<p>采用docker编译我们可以在本地不配置任何环境，只要安装docker，并下载docker镜像就好了。我在其他机器想编译，那我只需要把镜像pull下来，运行就好了。如果没有我们想要的镜像，我们可以自己配置，然后上传到docker hub，留着以后什么时候需要就下载。</p>
+<h1 id="构建docker环境">构建docker环境</h1>
+<p>这里使用dockerfile来构建android的编译环境。如果不想自己构建，也可以直接用我构建好的镜像：registry.cn-hangzhou.aliyuncs.com/lm93129/android_env:v1</p>
+<pre><code>FROM ubuntu:18.10
+
+MAINTAINER Yang zixi
+
+ENV ANDROID_HOME=&quot;/opt/android-sdk&quot; \
+    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+# 获取最新版本的sdktools地址：https://developer.android.com/studio/index.html
+ENV ANDROID_SDK_TOOLS_VERSION=&quot;4333796&quot;
+
+# 设置本地语言
+ENV LANG=&quot;en_US.UTF-8&quot; \
+    LANGUAGE=&quot;en_US.UTF-8&quot; \
+    LC_ALL=&quot;en_US.UTF-8&quot;
+
+RUN apt-get clean &amp;&amp; apt-get update -qq &amp;&amp; apt-get install -qq -y apt-utils locales &amp;&amp; locale-gen $LANG
+
+ENV DEBIAN_FRONTEND=&quot;noninteractive&quot; \
+    TERM=dumb \
+    DEBIAN_FRONTEND=noninteractive
+
+# 设置android环境变量
+ENV ANDROID_SDK_HOME=&quot;$ANDROID_HOME&quot;
+
+ENV PATH=&quot;$PATH:$ANDROID_SDK_HOME/emulator:$ANDROID_SDK_HOME/tools/bin:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$ANDROID_NDK:$FLUTTER_HOME/bin:$FLUTTER_HOME/bin/cache/dart-sdk/bin&quot;
+
+WORKDIR /tmp
+
+# 安装一些依赖包，这里由于我个人需要，所以多安装了一些，可以根据自己的实际情况，少安装一些包
+RUN apt-get update -qq &gt; /dev/null &amp;&amp; \
+    apt-get install -qq locales &gt; /dev/null &amp;&amp; \
+    locale-gen &quot;$LANG&quot; &gt; /dev/null &amp;&amp; \
+    apt-get install -qq --no-install-recommends \
+        build-essential \
+        autoconf \
+        curl \
+        git \
+        lib32stdc++6 \
+        lib32z1 \
+        lib32z1-dev \
+        libc6-dev \
+        libgmp-dev \
+        libmpc-dev \
+        libmpfr-dev \
+        libxslt-dev \
+        libxml2-dev \
+        m4 \
+        ncurses-dev \
+        ocaml \
+        openjdk-8-jdk \
+        openssh-client \
+        pkg-config \
+        software-properties-common \
+        unzip \
+        wget \
+        zip \
+        zlib1g-dev &gt; /dev/null
+
+# 安装SDK
+RUN echo &quot;Installing sdk tools ${ANDROID_SDK_TOOLS_VERSION}&quot; &amp;&amp; \
+    wget --quiet --output-document=sdk-tools.zip \
+        &quot;https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip&quot; &amp;&amp; \
+    mkdir --parents &quot;$ANDROID_HOME&quot; &amp;&amp; \
+    unzip -q sdk-tools.zip -d &quot;$ANDROID_HOME&quot; &amp;&amp; \
+    rm --force sdk-tools.zip &amp;&amp; \
+# 安装sdk中的组件，可以根据需要自行修改
+    mkdir --parents &quot;$ANDROID_HOME/.android/&quot; &amp;&amp; \
+    echo '### User Sources for Android SDK Manager' &gt; \
+        &quot;$ANDROID_HOME/.android/repositories.cfg&quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager --licenses &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing platforms&quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;platforms;android-28&quot; \
+        &quot;platforms;android-27&quot; \
+        &quot;platforms;android-26&quot; \
+        &quot;platforms;android-25&quot; &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing platform tools &quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;platform-tools&quot; &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing build tools &quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;build-tools;28.0.3&quot; &quot;build-tools;28.0.2&quot; &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing extras &quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;extras;android;m2repository&quot; \
+        &quot;extras;google;m2repository&quot; &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing play services &quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;extras;google;google_play_services&quot; \
+        &quot;extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2&quot; &gt; /dev/null &amp;&amp; \
+    echo &quot;Installing Google APIs&quot; &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager \
+        &quot;add-ons;addon-google_apis-google-24&quot; \
+        &quot;add-ons;addon-google_apis-google-23&quot; &gt; /dev/null &amp;&amp; \
+    yes | &quot;$ANDROID_HOME&quot;/tools/bin/sdkmanager --licenses
+
+# 设置Jenkins的环境
+RUN mkdir -p /var/lib/jenkins/workspace
+RUN mkdir -p /home/jenkins
+RUN chmod 777 /home/jenkins
+RUN chmod 777 /var/lib/jenkins/workspace
+RUN chmod 777 $ANDROID_HOME/.android
+</code></pre>
+<p>保存上面的代码为Dockerfile，然后运行<code>docker build -t android_builder:v1 .</code> 就可以构建镜像。构建过程，需要下载谷歌的东西，所以国内网络可能会有问题，请注意网络，或者自行再构建过程中加入代理，我这里使用国外的服务器构建的，所以没有该问题。
+这个镜像可以根据需要自己进行扩展，比如我这里只有android25-28的。如果你需要其他的，也可以自己再加。</p>
+<h1 id="使用方法">使用方法</h1>
+<h2 id="直接使用镜像">直接使用镜像</h2>
+<p>我们可以将android项目目录挂载到容器中，然后运行命令即可。例如：</p>
+<pre><code>docker run -it --rm -v /home/android:/home/builder/workdir -u 0:0 android_builder:v1 /bin/bash
+</code></pre>
+<p>然后进入/home/builder/workdir中运行构建命令即可，上面使用了--rm命令，所以再容器关闭后会自动销毁。</p>
+<h2 id="jenkins中使用镜像">Jenkins中使用镜像</h2>
+<p>直接贴上pipeline的代码，其中镜像可以挂载/root/.gradle目录，可以实现不需要每次都下载依赖。然后关于蒲公英的上传，这里只是做了一个示例。这个脚本里面还可以再扩展下，比如构建完成之后钉钉通知下载app之类的</p>
+<pre><code>pipeline {
+    environment {
+        CI = 'true'
+    }
+    agent {
+        docker {
+            image 'registry.cn-hangzhou.aliyuncs.com/lm93129/android_env:v1'
+            args  '-v /docker/ci-cache/.gradle:/root/.gradle'
+        }
+    }
+    parameters {
+        listGitBranches branchFilter: '*', credentialsId: 'gitlab', defaultValue: 'master', name: 'prj_tag', quickFilterEnabled: false, remoteURL: 'http://gitlab.com.cn/asoco/xxxx.git', selectedValue: 'NONE', sortMode: 'DESCENDING_SMART', tagFilter: '*', type: 'PT_BRANCH'
+    }
+    stages {
+        stage('构建') {
+            steps {
+                echo '开始构建'
+                git credentialsId: 'gitlab', url: 'http://gitlab.com.cn/asoco/xxxx.git'
+                sh 'git checkout ${prj_tag}'
+                sh '/bin/bash gradlew assembleRelease'
+                echo '构建成功'
+            }
+        }
+        stage('代码扫描') {
+            steps {
+                echo '开始代码扫描'
+                sh './gradlew sonarqube'
+                echo '代码扫描结束'
+            }
+        }
+        stage('apk上传') {
+            steps {
+                echo '上传代码到蒲公英'
+                sh &quot;curl -F &quot;file=@/tmp/*.apk&quot; -F &quot;uKey=&quot; -F &quot;_api_key=&quot; https://qiniu-storage.pgyer.com/apiv1/app/upload &quot;
+            }
+        }
+    }
+    post {
+        failure {
+            echo '失败'
+        }
+        success {
+            archiveArtifacts artifacts: 'app/build/outputs/apk/release/*.apk', fingerprint: true
+        }
+    }
+}   
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/tNyzxcM7b" class="tag">
+                    Jenkins
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/hv0-KOS_H" class="tag">
+                    移动端测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/XTf6QFya9" class="tag">
+                    docker
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/4vvRZ8Q6x">
+                  <h3 class="post-title">
+                    Jenkinsfile编写简单说明（pipeline scrip）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

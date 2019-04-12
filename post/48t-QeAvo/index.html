@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>ELK Metricbeat配置文件的修改 | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">ELK Metricbeat配置文件的修改</h2>
+            <div class="post-date">2019-03-07</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/48t-QeAvo.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>以下为ELK常见配置的中文说明，具体配置再安装完ELK的客户端之后，再配置文件中自行修改。</p>
+<h4 id="metricbeat-性能监控">metricbeat 性能监控</h4>
+<p>在 linux 系统中，编辑/etc/metricbeat/modules.d/ 目录下对应的开源组件配置文件
+在 Windows 系统中，编辑/metricbeat/modules.d/ 目录下对应的开源组件配置文件
+编辑配置文件之后，需要重启 metricbeat 才会生效</p>
+<h4 id="filebeat-日志收集">filebeat 日志收集</h4>
+<p>在 linux 系统中，编辑/etc/filebeat/modules.d/ 目录下对应的开源组件配置文件
+在 Windows 系统中，编辑/filebeat/modules.d/ 目录下对应的开源组件配置文件
+编辑配置文件之后，需要重启 filebeat 才会生效</p>
+<h2 id="docker-配置文件">docker 配置文件</h2>
+<h4 id="docker-性能监控">docker 性能监控</h4>
+<pre><code>#docker监控的指标，和docker的地址，通常默认即可，如果不需要监控某些指标，可以用#号注释
+metricbeat.modules:
+- module: docker
+  metricsets:
+    - &quot;container&quot;
+    - &quot;cpu&quot;
+    - &quot;diskio&quot;
+    - &quot;healthcheck&quot;
+    - &quot;info&quot;
+    #- &quot;image&quot;
+    - &quot;memory&quot;
+    - &quot;network&quot;
+  hosts: [&quot;unix:///var/run/docker.sock&quot;]
+#
+  period: 10s
+  enabled: true
+
+  # If set to true, replace dots in labels with `_`.
+  #labels.dedot: false
+
+  # 如果docker开启了SSL认证，需要加入对应的证书位置，通常不需要。
+  #ssl:
+    #certificate_authority: &quot;/etc/pki/root/ca.pem&quot;
+    #certificate:           &quot;/etc/pki/client/cert.pem&quot;
+    #key:                   &quot;/etc/pki/client/cert.key&quot;
+</code></pre>
+<h2 id="mysql-配置文件">MYSQL 配置文件</h2>
+<h4 id="mysql-性能监控">MYSQL 性能监控</h4>
+<pre><code>#mysql监控的指标和数据上报时间的设置
+metricbeat.modules:
+- module: mysql
+  metricsets:
+    - &quot;status&quot;
+  #  - &quot;galera_status&quot;
+  period: 10s
+
+ #设置数据库连接，按照下面例子进行修改  &quot;用户名:密码@tcp(数据库地址:数据库端口)/&quot;
+  hosts: [&quot;root:secret@tcp(127.0.0.1:3306)/&quot;]
+
+  # By setting raw to true, all raw fields from the status metricset will be added to the event.
+  #raw: false
+</code></pre>
+<h4 id="mysql-日志监控">MYSQL 日志监控</h4>
+<pre><code>- module: mysql
+  #错误日志
+  error:
+    enabled: true
+
+    # 设置日志的地址，如果不设置，会根据系统自动找默认的日志地址
+    #var.paths:
+
+  # 慢日志
+  slowlog:
+    enabled: true
+
+    # 设置日志的地址，如果不设置，会根据系统自动找默认的日志地址
+    #var.paths:
+
+</code></pre>
+<h2 id="redis-配置文件">redis 配置文件</h2>
+<h4 id="redis-性能监控">redis 性能监控</h4>
+<pre><code>#redis监控的指标，包括数据上报的间隔
+metricbeat.modules:
+- module: redis
+  metricsets: [&quot;info&quot;, &quot;keyspace&quot;]
+  enabled: true
+  period: 10s
+
+  # redis的地址
+  hosts: [&quot;127.0.0.1:6379&quot;]
+
+  #  datacenter: west
+
+  # 链接redis的方式，默认是tcp，不需要修改
+  #network: tcp
+
+  # redis密码认证，如果加了密码，需要修改
+  #password: foobared
+
+</code></pre>
+<h4 id="redis-日志监控">redis 日志监控</h4>
+<pre><code>- module: redis
+  # Main logs
+  log:
+    enabled: true
+
+    #  设置日志的地址，如果不设置，会根据系统自动找默认的日志地址
+    #var.paths: [&quot;/var/log/redis/redis-server.log*&quot;]
+
+  # 慢日志的收集，需要通过API连接redis
+  slowlog:
+    enabled: true
+
+    # 设置redis的连接
+    #var.hosts: [&quot;localhost:6379&quot;]
+
+    # 设置redis的密码，如果没有可以不设置
+    #var.password:
+</code></pre>
+<h2 id="nginx-配置文件">nginx 配置文件</h2>
+<h4 id="nginx-性能监控">nginx 性能监控</h4>
+<pre><code>#nginx的监控设置，需要在nginx开启性能页面，具体见nginx配置说明中的开启nginx状态监控
+metricbeat.modules:
+- module: nginx
+  metricsets: [&quot;stubstatus&quot;]
+  enabled: true
+  period: 10s
+
+  # nginx的地址
+  hosts: [&quot;http://127.0.0.1&quot;]
+
+  # status的地址，如果nginx的状态页面是 http://127.0.0.1/server-status 则配置如下，IP和端口填在上面的host里面，后面的path填下面这里
+  server_status_path: &quot;server-status&quot;
+</code></pre>
+<h4 id="nginx-日志监控">nginx 日志监控</h4>
+<pre><code>- module: nginx
+  # 收集成功日志
+  access:
+    enabled: true
+
+    # 设置成功日志的地址，如果不设置，会根据系统自动找默认的日志地址
+    #var.paths:
+
+  # 收集错误日志
+  error:
+    enabled: true
+
+    # 设置错误日志的地址，如果不设置，会根据系统自动找默认的日志地址
+    #var.paths:
+</code></pre>
+<h2 id="系统性能配置文件">系统性能配置文件</h2>
+<h4 id="系统性能监控">系统性能监控</h4>
+<pre><code>#系统的相关指标和数据上报时间间隔，不监控的用#号注释
+metricbeat.modules:
+- module: system
+  metricsets:
+    - cpu             # CPU usage
+    - load            # CPU load averages
+    - memory          # Memory usage
+    - network         # Network IO
+    - process         # Per process metrics
+    - process_summary # Process summary
+    - uptime          # System Uptime
+    #- core           # Per CPU core usage
+    #- diskio         # Disk IO
+    #- filesystem     # File system usage for each mountpoint
+    #- fsstat         # File system summary metrics
+    #- raid           # Raid
+    #- socket         # Sockets and connection info (linux only)
+  enabled: true
+  period: 10s
+  processes: ['.*']
+</code></pre>
+<h2 id="postgresql-配置文件">postgresql 配置文件</h2>
+<h4 id="postgresql-性能监控">postgresql 性能监控</h4>
+<pre><code>#postgresql的地址
+- module: postgresql
+  hosts: [&quot;postgres://localhost:5432&quot;]
+</code></pre>
+<h4 id="postgresql-日志监控">postgresql 日志监控</h4>
+<pre><code>- module: postgresql
+  # 开启日志
+  log:
+    enabled: true
+
+    # 设置日志的位置
+    #var.paths:
+</code></pre>
+<h2 id="rabbitmq-配置文件">rabbitmq 配置文件</h2>
+<h4 id="rabbitmq-性能监控">rabbitmq 性能监控</h4>
+<pre><code>
+#rabbitmq的地址
+- module: rabbitmq
+  hosts: [&quot;localhost:15672&quot;]
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/WTAZgiW86">
+                  <h3 class="post-title">
+                    ELK的Metricbeat性能监控组件部署方法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

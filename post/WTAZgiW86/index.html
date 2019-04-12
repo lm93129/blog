@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>ELK的Metricbeat性能监控组件部署方法 | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">ELK的Metricbeat性能监控组件部署方法</h2>
+            <div class="post-date">2019-03-07</div>
+            
+              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/WTAZgiW86.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>ELK其他组件部署与此类似，可以对照这进行安装</p>
+<h2 id="windows篇">Windows篇</h2>
+<p>选择系统指标后，下面会显示安装教程。下面说明Windows的安装（页面可以用浏览器自带的翻译功能翻译英文，便于理解）</p>
+<ol>
+<li>下载Windows监控程序的安装包Metricbeat Windows zip文件，W</li>
+<li>indows选择64位的</li>
+<li>将下载的文件解压到<code>C:\Program Files</code>。</li>
+<li>将解压出来的文件重命名为Metricbeat</li>
+<li>右键<code>install-service-metricbeat.ps1</code>文件，选择以PowerShell运行（需要有管理员权限）或者直接双击打开</li>
+<li>编辑<code>metricbeat.yml</code>文件，找到<code>output.elasticsearch:</code>将下面的<code>hosts: [&quot;localhost:9200&quot;]</code>修改为<code>hosts: [&quot;ELK_HOST:9200&quot;]</code>。在General项里面找到被注释的<code>name：</code> 取消注释，在冒号后加一个空格，然后输入该监控服务器的名称，例如gfmysql230。一般为项目+IP，然后保存文件</li>
+<li>编辑<code>modules.d/system.yml</code>文件（如果需要监控如nginx这些则需要编辑对应文件，且删除文件名后面的.disabled），在第二行加入<code>period: 5s</code>（需要注意对齐，该命令的含义为每5s上报一次数据，如果不加则默认为每10秒上报一次，性能测试有要求的情况可以修改为1s）</li>
+<li>打开任务管理器，选择服务，找到metricbeat服务，点击运行。如果没有服务，则为第四步执行有问题，可能没有管理员权限。运行成功后任务管理器会显示pid</li>
+<li>打开监控平台，搜索刚才设置的name名称。搜索方法如下<code>beat.name:230gfmysql</code>（name为具体自己设置的）.时间选择最近15分钟，如果出现数据，则表示监控已经成功部署</li>
+</ol>
+<h2 id="linux篇">Linux篇</h2>
+<blockquote>
+<p>安装完成后需要自己修改配置文件，修改方法参考见 ELK常用组件配置 和下面的修改配置文件</p>
+</blockquote>
+<h4 id="一键安装脚本">一键安装脚本</h4>
+<pre><code>wget https://qcloud.coding.net/u/lm93129/p/mysave/git/raw/master/myshell.sh &amp;&amp; bash myshell.sh
+</code></pre>
+<h4 id="手动安装metricbeatfilebeat替换下面代码中的metricbeat即可">手动安装metricbeat（filebeat替换下面代码中的metricbeat即可）</h4>
+<p>rpm包使用的是我自己存在coding上的rpm，如果需要最新的，可以自己去ELK的官网下载</p>
+<pre><code>curl -L -O https://qcloud.coding.net/u/lm93129/p/mysave/git/raw/master/rpm/metricbeat-6.4.1-x86_64.rpm
+sudo rpm -vi metricbeat-6.4.1-x86_64.rpm 
+</code></pre>
+<h4 id="编辑配置文件">编辑配置文件</h4>
+<ol>
+<li>编辑<code>/etc/metricbeat/metricbeat.yml</code>文件（可以用vi命令）。具体编辑内容见Windows篇。需要编辑的内容是一样的</li>
+<li>输入<code>sudo metricbeat modules enable system</code>启用系统监控，然后编辑<code>/etc/metricbeat/modules.d/system.yml</code>文件，修改内容和Windows一样。</li>
+<li>如果需要启用其他监控，将第三步中的命令修改下即可，如需要监控nginx，则输入<code>sudo metricbeat modules enable nginx</code></li>
+<li>输入<code>sudo service metricbeat start</code>启动服务。请勿输入<code>sudo metricbeat setup</code>建立仪表盘（仪表盘均已建立）</li>
+</ol>
+<h2 id="部署注意事项">部署注意事项</h2>
+<ol>
+<li>时区为北京时间，且必须同步。Linux下，查看服务器当前时间命令为date</li>
+<li>名称必须为互相不冲突且简单易懂。</li>
+<li>监控项的配置文件中的名称，也必须对应设定。</li>
+</ol>
+<h2 id="常用命令">常用命令</h2>
+<pre><code>#启动监控
+service metricbeat start
+#重启监控 
+service metricbeat restart
+#查看监控状态
+service metricbeat status
+#关闭监控
+service metricbeat stop
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" class="tag">
+                    性能测试
+                  </a>
+                
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/gTgj2fXew">
+                  <h3 class="post-title">
+                    Appium自动化测试简单入门
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
