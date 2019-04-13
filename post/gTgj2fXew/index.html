@@ -99,7 +99,91 @@
               </div>
             
             <div class="post-content">
-              <h1 id="appium-简介">Appium 简介</h1>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#appium-%E7%AE%80%E4%BB%8B">Appium 简介</a></li>
+<li><a href="#appium-%E4%BC%98%E5%8A%BF">Appium 优势</a></li>
+<li><a href="#appium-%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86">Appium 架构原理</a></li>
+<li><a href="#%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86">运行原理</a>
+<ul>
+<li><a href="#appium-%E6%9C%8D%E5%8A%A1%E5%99%A8">Appium 服务器</a></li>
+<li><a href="#bootstrapjar">Bootstrap.jar</a></li>
+<li><a href="#appium-%E5%AE%A2%E6%88%B7%E7%AB%AF">Appium 客户端</a></li>
+</ul>
+</li>
+<li><a href="#appium-%E7%BB%84%E4%BB%B6">Appium 组件</a>
+<ul>
+<li><a href="#appium-server">Appium Server</a></li>
+<li><a href="#appium-desktop">Appium Desktop</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%89%E8%A3%85-appium">安装 appium</a></li>
+<li><a href="#1%E5%AE%89%E8%A3%85-java-%E7%8E%AF%E5%A2%83">1.安装 Java 环境</a>
+*
+<ul>
+<li><a href="#%E5%85%88%E4%BB%8E-java-%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD-jdk%E6%AD%A3%E7%A1%AE%E5%AE%89%E8%A3%85%E5%B9%B6%E4%B8%94%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%9C%A8-cmd-%E4%B8%AD%E8%BE%93%E5%85%A5-java-version-%E7%A1%AE%E8%AE%A4-java-%E7%89%88%E6%9C%AC%E7%9B%AE%E5%89%8D%E6%9C%80%E6%96%B0%E7%9A%84-java-7-%E6%88%96%E8%80%85-java-8-%E9%83%BD%E5%8F%AF%E4%BB%A5">先从 Java 官网下载 jdk，正确安装并且配置环境变量，在 cmd 中输入 java -version 确认 java 版本，目前最新的 java 7 或者 Java 8 都可以</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%AE%89%E8%A3%85-android-jdk">2.安装 android jdk</a></li>
+<li><a href="#3%E4%BD%BF%E7%94%A8-appium-%E5%AE%89%E8%A3%85%E5%8C%85">3.使用 Appium 安装包</a></li>
+<li><a href="#appium-capability-%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B">appium capability 参数配置简介</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-capability">什么是 Capability</a></li>
+<li><a href="#session">Session</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8-capability-%E9%85%8D%E7%BD%AE%E8%AE%B2%E8%A7%A3">常用 Capability 配置讲解</a>
+<ul>
+<li><a href="#%E5%85%AC%E7%94%A8-capability">公用 Capability</a></li>
+<li><a href="#android-%E7%8B%AC%E6%9C%89-capability">Android 独有 Capability</a></li>
+<li><a href="#ios-%E7%8B%AC%E6%9C%89-capability">ios 独有 Capability</a></li>
+<li><a href="#desired-capability-%E5%8F%82%E6%95%B0-josin">desired capability 参数 Josin</a></li>
+<li><a href="#inspector-%E5%85%83%E7%B4%A0%E8%8E%B7%E5%8F%96">Inspector 元素获取</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E8%8E%B7%E5%8F%96-apppackage-%E5%92%8C-appactivity">获取 appPackage 和 appActivity</a></li>
+<li><a href="#%E6%96%B9%E6%B3%95-1">方法 1:</a></li>
+<li><a href="#%E6%96%B9%E6%B3%95-2">方法 2:</a></li>
+<li><a href="#%E6%96%B9%E6%B3%95-3">方法 3:</a>
+*
+<ul>
+<li><a href="#%E9%A6%96%E5%85%88%E4%BD%A0%E8%A6%81%E6%9C%89%E4%B8%80%E4%B8%AA-app-%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85-xxxapk">首先，你要有一个 APP 的安装包 xxx.apk，</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B9%E6%B3%95-4">方法 4:</a></li>
+<li><a href="#appium-%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D">appium 元素定位</a>
+<ul>
+<li><a href="#%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F">元素定位方式</a></li>
+<li><a href="#id-%E5%AE%9A%E4%BD%8D">id 定位</a>
+<ul>
+<li><a href="#%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF-%E8%87%AA%E5%8A%A8%E7%99%BB%E9%99%86">测试场景--自动登陆</a></li>
+</ul>
+</li>
+<li><a href="#name-%E5%AE%9A%E4%BD%8D">name 定位</a></li>
+<li><a href="#classname-%E5%AE%9A%E4%BD%8D">classname 定位</a></li>
+<li><a href="#xpath-%E5%AE%9A%E4%BD%8D">xpath 定位</a>
+<ul>
+<li><a href="#%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B">实践案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#appium-%E4%B9%8B-toast-%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB">appium 之 Toast 元素识别</a>
+*
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83">问题思考</a></li>
+<li><a href="#toast-%E7%AE%80%E4%BB%8B">Toast 简介</a></li>
+<li><a href="#appium-toast-%E5%86%85%E5%AE%B9%E8%8E%B7%E5%8F%96">Appium Toast 内容获取</a>
+<ul>
+<li><a href="#%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF">测试场景</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8Ftoast-%E5%86%85%E5%AE%B9%E4%B8%BA%E4%B8%AD%E6%96%87%E6%97%B6%E9%A1%B6%E9%83%A8%E5%BF%85%E9%A1%BB%E6%B3%A8%E9%87%8A-codingutf-8-%E5%90%A6%E5%88%99%E4%BC%9A%E5%9B%A0%E4%B8%BA%E7%BC%96%E8%A7%A3%E7%A0%81%E5%AF%BC%E8%87%B4%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E5%A4%B1%E8%B4%A5"><strong>注意：Toast 内容为中文时，顶部必须注释# coding=utf-8 否则会因为编解码导致文字识别失败。</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="appium-简介">Appium 简介</h1>
 <hr>
 <p>Appium 是一个开源测试自动化框架，可用于原生，混合和移动 Web 应用程序测试。
 它使用 WebDriver 协议驱动 iOS，Android 和 Windows 应用程序。</p>

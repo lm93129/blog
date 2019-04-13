@@ -100,6 +100,27 @@
             
             <div class="post-content">
               <h1 id="主流-cicd-应用">主流 CI/CD 应用</h1>
+<p><ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%BB%E6%B5%81-cicd-%E5%BA%94%E7%94%A8">主流 CI/CD 应用</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%80%E6%AC%A1%E8%A7%84%E8%8C%83%E7%9A%84%E5%8F%91%E5%B8%83%E5%BA%94%E8%AF%A5%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9">容器环境下一次规范的发布应该包含哪些内容</a></li>
+<li><a href="#ci-%E6%B5%81%E7%A8%8B%E6%BC%94%E7%A4%BA">CI 流程演示</a>
+<ul>
+<li><a href="#%E5%8D%95%E4%BA%BA%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F">单人开发模式</a></li>
+<li><a href="#%E5%A4%9A%E4%BA%BA%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F">多人开发模式</a></li>
+<li><a href="#gitflow-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F">GitFlow 开发模式</a></li>
+</ul>
+</li>
+<li><a href="#step-by-step-%E6%9E%84%E5%BB%BA-ci-%E5%B7%A5%E4%BD%9C%E6%B5%81">Step by Step 构建 CI 工作流</a>
+<ul>
+<li><a href="#step0-%E5%9F%BA%E4%BA%8E-docker-%E9%83%A8%E7%BD%B2-jenkins">Step.0: 基于 docker 部署 Jenkins</a></li>
+<li><a href="#step1-%E5%8D%95%E4%BA%BA%E5%B7%A5%E4%BD%9C%E6%B5%81%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B8%8E-docker-%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA">Step.1: 单人工作流，自动化单元测试与 Docker 镜像构建</a></li>
+<li><a href="#step2-gitflow-%E5%A4%9A%E5%88%86%E6%94%AF%E5%9B%A2%E9%98%9F%E5%B7%A5%E4%BD%9C%E6%B5%81">Step.2: GitFlow 多分支团队工作流</a></li>
+<li><a href="#step3-%E8%AF%AD%E4%B9%89%E5%8C%96%E5%8F%91%E5%B8%83">Step.3: 语义化发布</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AF%9D">后话</a></li>
+</ul>
+</p>
 <p>对比经过一些比较和调研，由于团队主要使用java语言开发，最终选择了 Jenkins作为主力 CI 工具。
 下面这张表总结了主流的几个 CI/CD 应用的特点</p>
 <table>

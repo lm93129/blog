@@ -99,7 +99,18 @@
               </div>
             
             <div class="post-content">
-              <h1 id="思考">思考</h1>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#%E6%80%9D%E8%80%83">思考</a></li>
+<li><a href="#%E6%9E%84%E5%BB%BAdocker%E7%8E%AF%E5%A2%83">构建docker环境</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">使用方法</a>
+<ul>
+<li><a href="#%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">直接使用镜像</a></li>
+<li><a href="#jenkins%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">Jenkins中使用镜像</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="思考">思考</h1>
 <p>采用docker编译我们可以在本地不配置任何环境，只要安装docker，并下载docker镜像就好了。我在其他机器想编译，那我只需要把镜像pull下来，运行就好了。如果没有我们想要的镜像，我们可以自己配置，然后上传到docker hub，留着以后什么时候需要就下载。</p>
 <h1 id="构建docker环境">构建docker环境</h1>
 <p>这里使用dockerfile来构建android的编译环境。如果不想自己构建，也可以直接用我构建好的镜像：registry.cn-hangzhou.aliyuncs.com/lm93129/android_env:v1</p>
