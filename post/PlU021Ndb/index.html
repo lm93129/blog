@@ -172,7 +172,7 @@ acme.sh   --issue   --dns dns_dp   -d aa.com  -d www.aa.com
 <h3 id="3修改nginx的ssl配置">3.修改nginx的ssl配置</h3>
 <p>运行<code>openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048</code>生成dhparam.pem 文件</p>
 <p>修改 Nginx 启用 SSL</p>
-<pre><code>   ssl_certificate  /etc/nginx/ssl/fullchain.cer;
+<pre><code>    ssl_certificate  /etc/nginx/ssl/fullchain.cer;
     ssl_certificate_key  /etc/nginx/ssl/&lt;domain&gt;.key;
     ssl_session_timeout 5m;
     ssl_session_cache shared:SSL:1m;
