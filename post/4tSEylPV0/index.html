@@ -6,7 +6,7 @@
 <meta name="robots" content="all,follow">
 <meta name="googlebot" content="index,follow,snippet,archive">
 <title>企业级Docker私有仓库之Harbor部署 | 浮生若梦</title>
-<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1555987779763">
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1556012292443">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css" type='text/css' media='all'>
 
@@ -240,14 +240,14 @@ systemctl reload docker
 service docker restart
 </code></pre>
 <h3 id="harbor的登陆和使用基本操作如下">harbor的登陆和使用基本操作如下：</h3>
-<p>登陆到harbor
-<code>docker login -u admin -p Harbor12345 harbor.com</code>
-本地基于mysql:latest创建tag。（需要先docker pull mysql:latest拉去官方镜像）
-<code>docker tag mysql:latest harbor.com/admin/mysql:latest</code>
-推送本地镜像mysql:latest 到hub.wow私有仓库
-<code>docker push harbor.com/admin/mysql:latest</code>
-拉取刚才上传的镜像
-<code>docker pull harbor.com/admin/mysql:latest</code></p>
+<p>登陆到harbor</p>
+<p><code>docker login -u admin -p Harbor12345 harbor.com</code></p>
+<p>本地基于mysql:latest创建tag。（需要先docker pull mysql:latest拉去官方镜像）</p>
+<p><code>docker tag mysql:latest harbor.com/admin/mysql:latest</code></p>
+<p>推送本地镜像mysql:latest 到hub.wow私有仓库</p>
+<p><code>docker push harbor.com/admin/mysql:latest</code></p>
+<p>拉取刚才上传的镜像</p>
+<p><code>docker pull harbor.com/admin/mysql:latest</code></p>
 <h2 id="harbor服务管理">Harbor服务管理</h2>
 <pre><code>cd harbor/
 docker-compose -f ./docker-compose.yml [ up|down|ps|stop|start ]
@@ -309,7 +309,7 @@ docker-compose -f ./docker-compose.yml [ up|down|ps|stop|start ]
           </div>
           <div class="author-meta">
             <div class="author">
-              <img alt='' src="https://lm93129.github.io/blog//images/avatar.png?v=1555987779763" class='avatar avatar-72 photo' height='72' width='72'>
+              <img alt='' src="https://lm93129.github.io/blog//images/avatar.png?v=1556012292443" class='avatar avatar-72 photo' height='72' width='72'>
               <span><a href='https://lm93129.github.io/blog/'>浮生若梦</a> </span>
             </div>
             <div class="bio">
