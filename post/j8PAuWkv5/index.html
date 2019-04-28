@@ -1,103 +1,160 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
-
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
 <title>SonarQube 的安装（docker）与使用 | 浮生若梦</title>
-<meta name="description" content="温故而知新  fs.tn">
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1556438019736">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css" type='text/css' media='all'>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1556024038888">
-<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
-
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-110974045-2');
-</script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
 
 
-  </head>
-  <body>
-    <div id="app" class="main">
 
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://lm93129.github.io/blog/">
-        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1556024038888" class="site-logo">
-        <h1 class="site-title">浮生若梦</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
+
+</head>
+<body class="home blog ct-body standard">
+<div id="overflow-container" class="overflow-container">
+  <a class="skip-content" href="#main">Skip to content</a>
+  <header id="site-header" class="site-header" role="banner">
+    <div class='top-navigation top-navigation-important'>
+        <div class='container'>
+            <div id="menu-secondary" class="menu-container menu-secondary" role="navigation">
+                <button id="toggle-secondary-navigation" class="toggle-secondary-navigation"><i class="fa fa-plus"></i></button>
+                <div class="menu">
+                    <ul id="menu-secondary-items" class="menu-secondary-items">
+                        
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/QNC8T5st1">kubernetes</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/rkQFlt07z">k8s</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/XTf6QFya9">docker</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw">持续集成</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/tNyzxcM7b">Jenkins</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/hv0-KOS_H">移动端测试</a>
+                        </li>
+                            
+                        
+                            
+                        <li id="menu-item" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item">
+                            <a href="https://lm93129.github.io/blog//tag/-lhVZc40P">linux</a>
+                        </li>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </ul>
+                </div>
+            </div>
+            <ul class="social-media-icons">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </div>
     </div>
-    <div>
-      
-        
-          <a href="https://lm93129.github.io/blog/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
-            关于
-          </a>
-        
-      
+
+    <div class="container">
+        <div id="title-info" class="title-info">
+            <div id='site-title' class='site-title'>
+                <a href="/https://lm93129.github.io/blog/">  浮生若梦 </a>
+            </div>
+        </div>
+        <button id="toggle-navigation" class="toggle-navigation">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div id="menu-primary-tracks" class="menu-primary-tracks"></div>
+        <div id="menu-primary" class="menu-container menu-primary" role="navigation">
+            <p class="site-description">温故而知新  fs.tn</p>
+            <div class="menu">
+                <ul id="menu-primary-items" class="menu-primary-items">
+                     
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="https://lm93129.github.io/blog/">首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="https://lm93129.github.io/blog//archives">归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="https://lm93129.github.io/blog//tags">标签</a>
+                            </li>
+                        
+                    
+                        
+                            <li id="menu-item" class='menu-item menu-item-type-post_type menu-item-object-page current-menu-item current_page_item'>
+                                <a href="https://lm93129.github.io/blog//post/about/">关于</a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+
+
+</header>
+
+  <div id="main" class="main" role="main">
+    <div id="loop-container" class="loop-container">
+      <div class="post type-post status-publish format-standard has-post-thumbnail hentry category-design tag-design tag-standard-2 tag-tagalicious tag-travel entry full-without-featured odd excerpt-1">
         
-      
+          <div class='featured-image lazy lazy-bg-image' data-background="https://lm93129.github.io/blog//post-images/j8PAuWkv5.png">
+          </div>
         
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      温故而知新  fs.tn
-    </div>
-    <div class="site-footer">
-      Powered by Hve Notes
+
+        <div class="entry-meta">
+          <span class="date">· 2019-03-13 ·</span> <span> / </span>
+          <span class="author">
+            <a href="https://lm93129.github.io/blog/" title="" rel="author"> Powered by Hve Notes
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
@@ -107,22 +164,26 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-110974045-2');
-</script>
-    </div>
-  </div>
-</div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">SonarQube 的安装（docker）与使用</h2>
-            <div class="post-date">2019-03-13</div>
-            
-              <div class="feature-container" style="background-image: url('https://lm93129.github.io/blog//post-images/j8PAuWkv5.png')">
-              </div>
-            
-            <div class="post-content">
+</script></a>
+          </span>
+          
+            <span class="category">
+                    <span> / </span>
+                    <a href="https://lm93129.github.io/blog//tag/NQwomkDOa">sonarqube</a>
+                </span>
+          
+            <span class="category">
+                    <span> / </span>
+                    <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw">持续集成</a>
+                </span>
+          
+        </div>
+        <div class='entry-header'>
+          <h1 class='entry-title'>SonarQube 的安装（docker）与使用</h1>
+        </div>
+        <div class="entry-container">
+          <div class="entry-content">
+            <article>
               <p><ul class="markdownIt-TOC">
 <li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
 <li><a href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA">环境搭建</a>
@@ -326,87 +387,175 @@ sonar.jacoco.itReportPath=target/coverage-reports/jacoco-it.exec
 <h1 id="总结">总结</h1>
 <p>常见的sonar代码扫描如上，iOS由于没有使用过，所以不知道怎么配置，看教程像是很复杂的样子。等以后接触了，再来更新。</p>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://lm93129.github.io/blog//tag/NQwomkDOa" class="tag">
-                    sonarqube
-                  </a>
-                
-                  <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" class="tag">
-                    持续集成
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://lm93129.github.io/blog//post/PlU021Ndb">
-                  <h3 class="post-title">
-                    acme自动签发HTTPS证书--摘录官方wiki
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
+            </article>
           </div>
-
+          <div class='entry-meta-bottom'>
+            <div class="entry-categories">
+              <p>
+                <span>Categories</span>
+                
+                  
+                    
+                  <a href="https://lm93129.github.io/blog//tag/QNC8T5st1" title="View all posts in kubernetes">kubernetes</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/rkQFlt07z" title="View all posts in k8s">k8s</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/XTf6QFya9" title="View all posts in docker">docker</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/R5Ken2nRw" title="View all posts in 持续集成">持续集成</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/tNyzxcM7b" title="View all posts in Jenkins">Jenkins</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/hv0-KOS_H" title="View all posts in 移动端测试">移动端测试</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/-lhVZc40P" title="View all posts in linux">linux</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/NQwomkDOa" title="View all posts in sonarqube">sonarqube</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/LsqQ7P51r" title="View all posts in 性能测试">性能测试</a>
+                    
+                    
+                    
+                  <a href="https://lm93129.github.io/blog//tag/ohD5pWWwI" title="View all posts in 功能测试">功能测试</a>
+                    
+                    
+                <!--<a href="/blog/categories/github" title="View all posts in Github">Github</a>
+                <a href="/blog/categories/ssh" title="View all posts in SSH">SSH</a>
+                <a href="/blog/categories/apidoc" title="View all posts in apidoc">apidoc</a>
+                <a href="/blog/categories/code" title="View all posts in code">code</a>
+                <a href="/blog/categories/markdown" title="View all posts in markdown">markdown</a>
+                <a href="/blog/categories/snap" title="View all posts in snap">snap</a>
+                <a href="/blog/categories/snap-store" title="View all posts in snap store">snap store</a>-->
+              </p>
+            </div>
+            <div class="entry-tags">
+              <p><span>Tags</span>
+              </p>
+            </div>
+          </div>
+          <div class="author-meta">
+            <div class="author">
+              <img alt='' src="https://lm93129.github.io/blog//images/avatar.png?v=1556438019736" class='avatar avatar-72 photo' height='72' width='72'>
+              <span>WRITTEN BY: &nbsp;&nbsp;&nbsp;<a href='https://lm93129.github.io/blog/'>浮生若梦</a> </span>
+            </div>
+            <div class="bio">
+              <p>浮生若梦</p>
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </div>
+          </div>
         </div>
+          
+            <nav class="navigation pagination" role="navigation">
+              <h2 class="screen-reader-text">Posts navigation</h2>
+              <div class="nav-links">
+                <a class="next page-numbers" href="https://lm93129.github.io/blog//post/PlU021Ndb">下一篇->acme自动签发HTTPS证书--摘录官方wiki</a>
+              </div>
+            </nav>
+          
       </div>
-    </div>
+      <section id="comments" class="comments">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<div id="gitalk-container"></div>
 
-<script type="application/javascript">
+<script>
 
-AOS.init();
+  var gitalk = new Gitalk({
+    clientID: '6ed8bed9fd41c51fea51',
+    clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+    repo: 'blog',
+    owner: 'lm93129',
+    admin: ['lm93129'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
 
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
-  
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+          
+        
+      </section>
+    </div>
+  </div>
 
-      var gitalk = new Gitalk({
-        clientID: '6ed8bed9fd41c51fea51',
-        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
-        repo: 'blog',
-        owner: 'lm93129',
-        admin: ['lm93129'],
-        id: location.pathname,      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+  <footer id="site-footer" class="site-footer" role="contentinfo">
+    <h1>
+        <a href="https://lm93129.github.io/blog/"> 浮生若梦 </a>
+    </h1>
+    <p class="site-description">温故而知新  fs.tn</p>
+    <div id="menu-footer" class="menu-container menu-footer" role="navigation">
+        <div class="menu">
+            <ul id="menu-footer-items" class="menu-footer-items">
+            </ul>
+        </div>
+    </div>
+    <ul class="social-media-icons">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </ul>
+    <div class="design-credit">
+        <p>Powered by Hve Notes
 
-      gitalk.render('gitalk-container')
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    </script>
-  
-
-  
-
-
-
-
-  </body>
+  gtag('config', 'UA-110974045-2');
+</script></p>
+    </div>
+</footer>
+<script>
+    hljs.initHighlightingOnLoad()
+</script>
+<script src="https://lm93129.github.io/blog//media/scripts/lib/jquery.min.js"></script>
+<script src="https://lm93129.github.io/blog//media/scripts/lib/jquerymigrate.js"></script>
+<script src="https://lm93129.github.io/blog//media/scripts/lib/production.min.js"></script>
+</div>
+</body>
 </html>
+
