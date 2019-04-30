@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1556438081490">
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1556608774153">
 <link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
 
 
@@ -44,7 +44,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://lm93129.github.io/blog/">
-        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1556438081490" class="site-logo">
+        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1556608774153" class="site-logo">
         <h1 class="site-title">浮生若梦</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,7 +123,21 @@
               </div>
             
             <div class="post-content">
-              <h1 id="什么是kubernetes">什么是Kubernetes？</h1>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFkubernetes">什么是Kubernetes？</a></li>
+<li><a href="#k8s-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D">k8s 核心概念介绍</a>
+<ul>
+<li><a href="#%E9%9B%86%E7%BE%A4">集群</a></li>
+<li><a href="#pod">Pod</a></li>
+<li><a href="#lable">Lable</a></li>
+<li><a href="#service">Service</a></li>
+<li><a href="#node">Node</a></li>
+<li><a href="#kubernetes-master">Kubernetes Master</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="什么是kubernetes">什么是Kubernetes？</h1>
 <p>Kubernetes（k8s）是自动化容器操作的开源平台，这些操作包括部署，调度和节点集群间扩展。如果你曾经用过Docker容器技术部署容器，那么可以将Docker看成Kubernetes内部使用的低级别组件。Kubernetes不仅仅支持Docker，还支持Rocket，这是另一种容器技术。使用Kubernetes可以：</p>
 <ul>
 <li>自动化容器的部署和复制</li>
@@ -139,9 +153,9 @@
 <p>上图可以看到如下组件，使用特别的图标表示Service和Label：
 Pod
 Container（容器）
-Label( <img src="https://i.loli.net/2019/04/28/5cc55a779b6ff.png" alt=""> )（标签）
+Label（标签）
 Replication Controller（复制控制器）
-Service（ <img src="https://i.loli.net/2019/04/28/5cc55a8a42157.png" alt=""> ）（服务）
+Service（服务）
 Node（节点）
 Kubernetes Master（Kubernetes主节点）</p>
 <h2 id="pod">Pod</h2>
@@ -150,7 +164,7 @@ Kubernetes Master（Kubernetes主节点）</p>
 是否手动创建Pod，如果想要创建同一个容器的多份拷贝，需要一个个分别创建出来么？可以手动创建单个Pod，但是也可以使用Replication Controller使用Pod模板创建出多份拷贝，下文会详细介绍。
 如果Pod是短暂的，那么重启时IP地址可能会改变，那么怎么才能从前端容器正确可靠地指向后台容器呢？这时可以使用Service，下文会详细介绍。</p>
 <h2 id="lable">Lable</h2>
-<p>正如图所示，一些Pod有Label（ <img src="https://i.loli.net/2019/04/28/5cc55a779b6ff.png" alt="">）。一个Label是attach到Pod的一对键/值对，用来传递用户定义的属性。比如，你可能创建了一个&quot;tier&quot;和“app”标签，通过Label（tier=frontend, app=myapp）来标记前端Pod容器，使用Label（tier=backend, app=myapp）标记后台Pod。然后可以使用Selectors选择带有特定Label的Pod，并且将Service或者Replication Controller应用到上面。</p>
+<p>正如图所示，一些Pod有Label 。一个Label是attach到Pod的一对键/值对，用来传递用户定义的属性。比如，你可能创建了一个&quot;tier&quot;和“app”标签，通过Label（tier=frontend, app=myapp）来标记前端Pod容器，使用Label（tier=backend, app=myapp）标记后台Pod。然后可以使用Selectors选择带有特定Label的Pod，并且将Service或者Replication Controller应用到上面。</p>
 <h2 id="service">Service</h2>
 <p>如果Pods是短暂的，那么重启时IP地址可能会改变，怎么才能从前端容器正确可靠地指向后台容器呢？</p>
 <p>Service是定义一系列Pod以及访问这些Pod的策略的一层抽象。Service通过Label找到Pod组。因为Service是抽象的，所以在图表里通常看不到它们的存在，这也就让这一概念更难以理解。</p>
