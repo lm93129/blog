@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://lm93129.github.io/blog</id>
+    <id>https://fs.tn</id>
     <title>浮生若梦</title>
-    <updated>2019-05-27T15:50:04.612Z</updated>
+    <updated>2019-05-27T15:52:09.339Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://lm93129.github.io/blog"/>
-    <link rel="self" href="https://lm93129.github.io/blog/atom.xml"/>
+    <link rel="alternate" href="https://fs.tn"/>
+    <link rel="self" href="https://fs.tn/atom.xml"/>
     <subtitle>温故而知新  fs.tn</subtitle>
-    <logo>https://lm93129.github.io/blog/images/avatar.png</logo>
-    <icon>https://lm93129.github.io/blog/favicon.ico</icon>
+    <logo>https://fs.tn/images/avatar.png</logo>
+    <icon>https://fs.tn/favicon.ico</icon>
     <rights>All rights reserved 2019, 浮生若梦</rights>
     <entry>
         <title type="html"><![CDATA[如何编写最佳的Dockerfile]]></title>
-        <id>https://lm93129.github.io/blog/post/cpGnLA2hK</id>
-        <link href="https://lm93129.github.io/blog/post/cpGnLA2hK">
+        <id>https://fs.tn/post/cpGnLA2hK</id>
+        <link href="https://fs.tn/post/cpGnLA2hK">
         </link>
         <updated>2019-05-27T01:28:14.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[使用Rancher快速搭建一个k8s集群]]></title>
-        <id>https://lm93129.github.io/blog/post/xChmFhWoQ</id>
-        <link href="https://lm93129.github.io/blog/post/xChmFhWoQ">
+        <id>https://fs.tn/post/xChmFhWoQ</id>
+        <link href="https://fs.tn/post/xChmFhWoQ">
         </link>
         <updated>2019-04-28T07:55:22.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Kubernetes简单介绍和核心概念]]></title>
-        <id>https://lm93129.github.io/blog/post/y2zW26NMV</id>
-        <link href="https://lm93129.github.io/blog/post/y2zW26NMV">
+        <id>https://fs.tn/post/y2zW26NMV</id>
+        <link href="https://fs.tn/post/y2zW26NMV">
         </link>
         <updated>2019-04-28T07:42:44.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Docker 容器环境下的持续集成实践：构建基于 Jenkins + GitFlow + docker 的CI 工作流]]></title>
-        <id>https://lm93129.github.io/blog/post/0NMEHvaef</id>
-        <link href="https://lm93129.github.io/blog/post/0NMEHvaef">
+        <id>https://fs.tn/post/0NMEHvaef</id>
+        <link href="https://fs.tn/post/0NMEHvaef">
         </link>
         <updated>2019-04-12T16:08:35.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[使用docker编译Android源码（支持Jenkins）]]></title>
-        <id>https://lm93129.github.io/blog/post/FflmRqk90</id>
-        <link href="https://lm93129.github.io/blog/post/FflmRqk90">
+        <id>https://fs.tn/post/FflmRqk90</id>
+        <link href="https://fs.tn/post/FflmRqk90">
         </link>
         <updated>2019-03-19T02:55:05.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Jenkinsfile编写简单说明（pipeline scrip）]]></title>
-        <id>https://lm93129.github.io/blog/post/4vvRZ8Q6x</id>
-        <link href="https://lm93129.github.io/blog/post/4vvRZ8Q6x">
+        <id>https://fs.tn/post/4vvRZ8Q6x</id>
+        <link href="https://fs.tn/post/4vvRZ8Q6x">
         </link>
         <updated>2019-03-14T07:24:03.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Jenkins的安装（docker）和简单的使用]]></title>
-        <id>https://lm93129.github.io/blog/post/WRXr2XyC0</id>
-        <link href="https://lm93129.github.io/blog/post/WRXr2XyC0">
+        <id>https://fs.tn/post/WRXr2XyC0</id>
+        <link href="https://fs.tn/post/WRXr2XyC0">
         </link>
         <updated>2019-03-13T11:55:44.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[SonarQube 的安装（docker）与使用]]></title>
-        <id>https://lm93129.github.io/blog/post/j8PAuWkv5</id>
-        <link href="https://lm93129.github.io/blog/post/j8PAuWkv5">
+        <id>https://fs.tn/post/j8PAuWkv5</id>
+        <link href="https://fs.tn/post/j8PAuWkv5">
         </link>
         <updated>2019-03-13T07:43:42.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[acme自动签发HTTPS证书--摘录官方wiki]]></title>
-        <id>https://lm93129.github.io/blog/post/PlU021Ndb</id>
-        <link href="https://lm93129.github.io/blog/post/PlU021Ndb">
+        <id>https://fs.tn/post/PlU021Ndb</id>
+        <link href="https://fs.tn/post/PlU021Ndb">
         </link>
         <updated>2019-03-07T09:10:04.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[ELK Metricbeat配置文件的修改]]></title>
-        <id>https://lm93129.github.io/blog/post/48t-QeAvo</id>
-        <link href="https://lm93129.github.io/blog/post/48t-QeAvo">
+        <id>https://fs.tn/post/48t-QeAvo</id>
+        <link href="https://fs.tn/post/48t-QeAvo">
         </link>
         <updated>2019-03-07T09:07:09.000Z</updated>
     </entry>
