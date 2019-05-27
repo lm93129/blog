@@ -9,7 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1558668505734">
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1558921610142">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
 
 
@@ -44,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://lm93129.github.io/blog/">
-        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1558668505734" class="site-logo">
+        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1558921610142" class="site-logo">
         <h1 class="site-title">浮生若梦</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -107,7 +108,7 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-110974045-2');
-</script>
+</script> | <a class="rss" href="https://lm93129.github.io/blog//atom.xml" target="_blank">RSS</a>
     </div>
   </div>
 </div>
@@ -247,7 +248,7 @@
 </code></pre>
 <p>上面的命令解释：</p>
 <ol>
-<li>使用docker build 构建一个符合harbor命名规则的镜像，其中{HAR_NAME}为环境变量中harbor的用户名，{JOB_NAME}为系统自带的环境变量，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi>e</mi><mi>n</mi><mi>v</mi><mi mathvariant="normal">.</mi><mi>G</mi><mi>I</mi><msub><mi>T</mi><mi>B</mi></msub><mi>R</mi><mi>A</mi><mi>N</mi><mi>C</mi><mi>H</mi></mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">{env.GIT_BRANCH}-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord mathit">e</span><span class="mord mathit">n</span><span class="mord mathit" style="margin-right:0.03588em;">v</span><span class="mord mathrm">.</span><span class="mord mathit">G</span><span class="mord mathit" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathit" style="margin-right:0.13889em;">T</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.13889em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit" style="margin-right:0.05017em;">B</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="mord mathit">A</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mord mathit" style="margin-right:0.08125em;">H</span></span><span class="mbin">−</span></span></span></span>{env.BUILD_NUMBER}为系统自带的环境变量，可以用与生成本次构建的唯一tag</li>
+<li>使用docker build 构建一个符合harbor命名规则的镜像，其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi>H</mi><mi>A</mi><msub><mi>R</mi><mi>N</mi></msub><mi>A</mi><mi>M</mi><mi>E</mi></mrow><mi mathvariant="normal">为</mi><mi mathvariant="normal">环</mi><mi mathvariant="normal">境</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">中</mi><mi>h</mi><mi>a</mi><mi>r</mi><mi>b</mi><mi>o</mi><mi>r</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">用</mi><mi mathvariant="normal">户</mi><mi mathvariant="normal">名</mi><mi mathvariant="normal">，</mi></mrow><annotation encoding="application/x-tex">{HAR_NAME}为环境变量中harbor的用户名，</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mord mathdefault">A</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">环</span><span class="mord cjk_fallback">境</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">中</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">b</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">户</span><span class="mord cjk_fallback">名</span><span class="mord cjk_fallback">，</span></span></span></span>{JOB_NAME}为系统自带的环境变量，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi>e</mi><mi>n</mi><mi>v</mi><mi mathvariant="normal">.</mi><mi>G</mi><mi>I</mi><msub><mi>T</mi><mi>B</mi></msub><mi>R</mi><mi>A</mi><mi>N</mi><mi>C</mi><mi>H</mi></mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">{env.GIT_BRANCH}-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord">.</span><span class="mord mathdefault">G</span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span></span><span class="mord">−</span></span></span></span>{env.BUILD_NUMBER}为系统自带的环境变量，可以用与生成本次构建的唯一tag</li>
 <li>withDockerRegistry命令为使用harbor的命令，使用harbor的登陆凭据为har-test，需要先在Jenkins的凭据中自己添加好。</li>
 <li>customImage.push命令为推送镜像到harbor，后面跟的是镜像的标签</li>
 </ol>
@@ -320,7 +321,7 @@ var app = new Vue({
 </script>
 
 
-  
+
   
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <script>
@@ -331,7 +332,7 @@ var app = new Vue({
         repo: 'blog',
         owner: 'lm93129',
         admin: ['lm93129'],
-        id: location.pathname,      // Ensure uniqueness and length less than 50
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
         distractionFreeMode: false  // Facebook-like distraction free mode
       })
 

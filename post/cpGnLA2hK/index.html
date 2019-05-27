@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>如何编写最佳的Dockerfile | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://lm93129.github.io/blog//favicon.ico?v=1558921610142">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://lm93129.github.io/blog//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://lm93129.github.io/blog/">
+        <img src="https://lm93129.github.io/blog//images/avatar.png?v=1558921610142" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://lm93129.github.io/blog/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://lm93129.github.io/blog//post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script> | <a class="rss" href="https://lm93129.github.io/blog//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">如何编写最佳的Dockerfile</h2>
+            <div class="post-date">2019-05-27</div>
+            
+              <div class="feature-container" style="background-image: url('https://i.loli.net/2019/05/27/5ceb41633176f34704.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E7%9B%AE%E6%A0%87">目标:</a></li>
+<li><a href="#%E9%94%99%E8%AF%AF%E7%A4%BA%E4%BE%8B">错误示例</a></li>
+<li><a href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E5%86%99">开始编写</a>
+<ul>
+<li><a href="#1-%E7%BC%96%E5%86%99dockerignore%E6%96%87%E4%BB%B6">1. 编写.dockerignore文件</a></li>
+<li><a href="#2-%E5%AE%B9%E5%99%A8%E5%8F%AA%E8%BF%90%E8%A1%8C%E5%8D%95%E4%B8%AA%E5%BA%94%E7%94%A8">2. 容器只运行单个应用</a></li>
+<li><a href="#3-%E5%B0%86%E5%A4%9A%E4%B8%AArun%E6%8C%87%E4%BB%A4%E5%90%88%E5%B9%B6%E4%B8%BA%E4%B8%80%E4%B8%AA">3. 将多个RUN指令合并为一个</a></li>
+<li><a href="#4-%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F%E7%9A%84%E6%A0%87%E7%AD%BE%E4%B8%8D%E8%A6%81%E7%94%A8latest">4. 基础镜像的标签不要用latest</a></li>
+<li><a href="#5-%E6%AF%8F%E4%B8%AArun%E6%8C%87%E4%BB%A4%E5%90%8E%E5%88%A0%E9%99%A4%E5%A4%9A%E4%BD%99%E6%96%87%E4%BB%B6">5. 每个RUN指令后删除多余文件</a></li>
+<li><a href="#6-%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8Falpine%E7%89%88%E6%9C%AC%E6%9C%80%E5%A5%BD">6. 选择合适的基础镜像(alpine版本最好)</a></li>
+<li><a href="#7-%E8%AE%BE%E7%BD%AEworkdir%E5%92%8C-cmd">7. 设置WORKDIR和 CMD</a></li>
+<li><a href="#8-%E4%BD%BF%E7%94%A8entrypoint-%E5%8F%AF%E9%80%89">8. 使用ENTRYPOINT (可选)</a></li>
+<li><a href="#9-%E5%9C%A8entrypoint%E8%84%9A%E6%9C%AC%E4%B8%AD%E4%BD%BF%E7%94%A8exec">9. 在entrypoint脚本中使用exec</a></li>
+<li><a href="#10-copy%E4%B8%8Eadd%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8%E5%89%8D%E8%80%85">10. COPY与ADD优先使用前者</a></li>
+<li><a href="#11-%E5%90%88%E7%90%86%E8%B0%83%E6%95%B4copy%E4%B8%8Erun%E7%9A%84%E9%A1%BA%E5%BA%8F">11. 合理调整COPY与RUN的顺序</a></li>
+<li><a href="#12-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%98%A0%E5%B0%84%E7%AB%AF%E5%8F%A3%E5%92%8C%E6%95%B0%E6%8D%AE%E5%8D%B7">12. 设置默认的环境变量，映射端口和数据卷</a></li>
+<li><a href="#13-%E4%BD%BF%E7%94%A8label%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E5%85%83%E6%95%B0%E6%8D%AE">13. 使用LABEL设置镜像元数据</a></li>
+<li><a href="#14-%E6%B7%BB%E5%8A%A0healthcheck">14. 添加HEALTHCHECK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+Dockerfile的语法非常简单，然而如何加快镜像构建速度，如何减少Docker镜像的大小却不是那么直观，需要积累实践经验。这篇博客可以帮助你快速掌握编写Dockerfile的技巧。
+我已经使用Docker有一段时间了，其中编写Dockerfile是非常重要的一部分工作。在这篇博客中，我打算分享一些建议，帮助大家编写更好的Dockerfile。</p>
+<h2 id="目标">目标:</h2>
+<ul>
+<li>更快的构建速度</li>
+<li>更小的Docker镜像大小</li>
+<li>更少的Docker镜像层</li>
+<li>充分利用镜像缓存</li>
+<li>增加Dockerfile可读性</li>
+<li>让Docker容器使用起来更简单</li>
+</ul>
+<h2 id="错误示例">错误示例</h2>
+<p>示例Dockerfile犯了几乎所有的错(当然我是故意的)。接下来，我会一步步优化它。假设我们需要使用Docker运行一个Node.js应用，下面就是它的Dockerfile(CMD指令太复杂了，所以我简化了，它是错误的，仅供参考)。</p>
+<pre><code>FROM ubuntu
+ADD . /app
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y nodejs ssh mysql
+RUN cd /app &amp;&amp; npm install
+# this should start three processes, mysql and ssh
+# in the background and node app in foreground
+# isn't it beautifully terrible? &lt;3
+CMD mysql &amp; sshd &amp; npm start
+</code></pre>
+<h2 id="开始编写">开始编写</h2>
+<h3 id="1-编写dockerignore文件">1. 编写.dockerignore文件</h3>
+<p>构建镜像时，Docker需要先准备context ，将所有需要的文件收集到进程中。默认的context包含Dockerfile目录中的所有文件，但是实际上，我们并不需要.git目录，node_modules目录等内容。 .dockerignore 的作用和语法类似于 .gitignore，可以忽略一些不需要的文件，这样可以有效加快镜像构建时间，同时减少Docker镜像的大小。示例如下:</p>
+<pre><code>.git/
+node_modules/
+</code></pre>
+<h3 id="2-容器只运行单个应用">2. 容器只运行单个应用</h3>
+<p>从技术角度讲，你可以在Docker容器中运行多个进程。你可以将数据库，前端，后端，ssh，supervisor都运行在同一个Docker容器中。但是，这会让你非常痛苦:</p>
+<ul>
+<li>非常长的构建时间(修改前端之后，整个后端也需要重新构建)</li>
+<li>非常大的镜像大小</li>
+<li>多个应用的日志难以处理(不能直接使用stdout，否则多个应用的日志会混合到一起)</li>
+<li>横向扩展时非常浪费资源(不同的应用需要运行的容器数并不相同)</li>
+<li>僵尸进程问题 - 你需要选择合适的init进程
+因此，我建议大家为每个应用构建单独的Docker镜像，然后使用 Docker Compose 运行多个Docker容器。
+现在，我从Dockerfile中删除一些不需要的安装包，另外，SSH可以用docker exec替代。示例如下：</li>
+</ul>
+<pre><code>FROM ubuntu
+ADD . /app
+RUN apt-get update
+RUN apt-get upgrade -y
+# we should remove ssh and mysql, and use
+# separate container for database
+RUN apt-get install -y nodejs # ssh mysql
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<h3 id="3-将多个run指令合并为一个">3. 将多个RUN指令合并为一个</h3>
+<p>Docker镜像是分层的，下面这些知识点非常重要:</p>
+<ul>
+<li>Dockerfile中的每个指令都会创建一个新的镜像层。</li>
+<li>镜像层将被缓存和复用</li>
+<li>当Dockerfile的指令修改了，复制的文件变化了，或者构建镜像时指定的变量不同了，对应的镜像层缓存就会失效</li>
+<li>某一层的镜像缓存失效之后，它之后的镜像层缓存都会失效</li>
+<li>镜像层是不可变的，如果我们再某一层中添加一个文件，然后在下一层中删除它，则镜像中依然会包含该文件(只是这个文件在Docker容器中不可见了)。</li>
+</ul>
+<p>Docker镜像类似于洋葱。它们都有很多层。为了修改内层，则需要将外面的层都删掉。记住这一点的话，其他内容就很好理解了。
+现在，我们将所有的RUN指令合并为一个。同时把apt-get upgrade删除，因为它会使得镜像构建非常不确定(我们只需要依赖基础镜像的更新就好了)</p>
+<pre><code>FROM ubuntu
+ADD . /app
+RUN apt-get update \
+&amp;&amp; apt-get install -y nodejs \
+&amp;&amp; cd /app \
+&amp;&amp; npm install
+CMD npm start
+</code></pre>
+<p>记住一点，我们只能将变化频率一样的指令合并在一起。将node.js安装与npm模块安装放在一起的话，则每次修改源代码，都需要重新安装node.js，这显然不合适。因此，正确的写法是这样的:</p>
+<pre><code>FROM ubuntu
+RUN apt-get update &amp;&amp; apt-get install -y nodejs
+ADD . /app
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<h3 id="4-基础镜像的标签不要用latest">4. 基础镜像的标签不要用latest</h3>
+<p>当镜像没有指定标签时，将默认使用latest 标签。因此， FROM ubuntu 指令等同于FROM ubuntu:latest。当时，当镜像更新时，latest标签会指向不同的镜像，这时构建镜像有可能失败。如果你的确需要使用最新版的基础镜像，可以使用latest标签，否则的话，最好指定确定的镜像标签。
+示例Dockerfile应该使用16.04作为标签。</p>
+<pre><code>FROM ubuntu:16.04 # it's that easy!
+RUN apt-get update &amp;&amp; apt-get install -y nodejs
+ADD . /app
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<h3 id="5-每个run指令后删除多余文件">5. 每个RUN指令后删除多余文件</h3>
+<p>假设我们更新了apt-get源，下载，解压并安装了一些软件包，它们都保存在/var/lib/apt/lists/目录中。但是，运行应用时Docker镜像中并不需要这些文件。我们最好将它们删除，因为它会使Docker镜像变大。
+示例Dockerfile中，我们可以删除/var/lib/apt/lists/目录中的文件(它们是由apt-get update生成的)。</p>
+<pre><code>FROM ubuntu:16.04
+RUN apt-get update \
+&amp;&amp; apt-get install -y nodejs \
+# added lines
+&amp;&amp; rm -rf /var/lib/apt/lists/*
+ADD . /app
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<h3 id="6-选择合适的基础镜像alpine版本最好">6. 选择合适的基础镜像(alpine版本最好)</h3>
+<p>在示例中，我们选择了ubuntu作为基础镜像。但是我们只需要运行node程序，有必要使用一个通用的基础镜像吗？node镜像应该是更好的选择。</p>
+<pre><code>FROM node
+ADD . /app
+# we don't need to install node
+# anymore and use apt-get
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<p>更好的选择是alpine版本的node镜像。alpine是一个极小化的Linux发行版，只有4MB，这让它非常适合作为基础镜像。</p>
+<pre><code>FROM node:7-alpine
+ADD . /app
+RUN cd /app &amp;&amp; npm install
+CMD npm start
+</code></pre>
+<h3 id="7-设置workdir和-cmd">7. 设置WORKDIR和 CMD</h3>
+<p>WORKDIR指令可以设置默认目录，也就是运行RUN / CMD / ENTRYPOINT指令的地方。
+CMD指令可以设置容器创建是执行的默认命令。另外，你应该讲命令写在一个数组中，数组中每个元素为命令的每个单词(参考官方文档)。</p>
+<pre><code>FROM node:7-alpine
+WORKDIR /app
+ADD . /app
+RUN npm install
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre>
+<h3 id="8-使用entrypoint-可选">8. 使用ENTRYPOINT (可选)</h3>
+<p>ENTRYPOINT指令并不是必须的，因为它会增加复杂度。ENTRYPOINT是一个脚本，它会默认执行，并且将指定的命令错误其参数。它通常用于构建可执行的Docker镜像。entrypoint.sh如下:</p>
+<pre><code>#!/usr/bin/env sh
+# $0 is a script name,
+# $1, $2, $3 etc are passed arguments
+# $1 is our command
+CMD=$1
+case &quot;$CMD&quot; in
+&quot;dev&quot; )
+npm install
+export NODE_ENV=development
+exec npm run dev
+;;
+&quot;start&quot; )
+# we can modify files here, using ENV variables passed in
+# &quot;docker create&quot; command. It can't be done during build process.
+echo &quot;db: $DATABASE_ADDRESS&quot; &gt;&gt; /app/config.yml
+export NODE_ENV=production
+exec npm start
+;;
+* )
+# Run custom command. Thanks to this line we can still use
+# &quot;docker run our_image /bin/bash&quot; and it will work
+exec $CMD ${@:2}
+;;
+esac
+</code></pre>
+<p>示例Dockerfile:</p>
+<pre><code>FROM node:7-alpine
+
+WORKDIR /app
+
+ADD . /app
+RUN npm install
+
+ENTRYPOINT [&quot;./entrypoint.sh&quot;]
+CMD [&quot;start&quot;]
+</code></pre>
+<p>可以使用如下命令运行该镜像:</p>
+<pre><code># 运行开发版本
+docker run our-app dev
+# 运行生产版本
+docker run our-app start
+# 运行bash
+docker run -it our-app /bin/bash
+</code></pre>
+<p>使用了entrypoint后，我们就可以在docker运行的命令后面接上参数，来实现不同情况的运行。</p>
+<h3 id="9-在entrypoint脚本中使用exec">9. 在entrypoint脚本中使用exec</h3>
+<p>在前文的entrypoint脚本中，我使用了exec命令运行node应用。不使用exec的话，我们则不能顺利地关闭容器，因为SIGTERM信号会被bash脚本进程吞没。exec命令启动的进程可以取代脚本进程，因此所有的信号都会正常工作。</p>
+<h3 id="10-copy与add优先使用前者">10. COPY与ADD优先使用前者</h3>
+<p>COPY指令非常简单，仅用于将文件拷贝到镜像中。ADD相对来讲复杂一些，可以用于下载远程文件以及解压压缩包(参考官方文档)。</p>
+<pre><code>FROM node:7-alpine
+
+WORKDIR /app
+COPY . /app
+RUN npm install
+
+ENTRYPOINT [&quot;./entrypoint.sh&quot;]
+CMD [&quot;start&quot;]
+</code></pre>
+<h3 id="11-合理调整copy与run的顺序">11. 合理调整COPY与RUN的顺序</h3>
+<p>我们应该把变化最少的部分放在Dockerfile的前面，这样可以充分利用镜像缓存。
+示例中，源代码会经常变化，则每次构建镜像时都需要重新安装NPM模块，这显然不是我们希望看到的。因此我们可以先拷贝package.json，然后安装NPM模块，最后才拷贝其余的源代码。这样的话，即使源代码变化，也不需要重新安装NPM模块。</p>
+<pre><code>FROM node:7-alpine
+
+WORKDIR /app
+
+COPY package.json /app
+RUN npm install
+COPY . /app
+
+ENTRYPOINT [&quot;./entrypoint.sh&quot;]
+CMD [&quot;start&quot;]
+</code></pre>
+<h3 id="12-设置默认的环境变量映射端口和数据卷">12. 设置默认的环境变量，映射端口和数据卷</h3>
+<p>运行Docker容器时很可能需要一些环境变量。在Dockerfile设置默认的环境变量是一种很好的方式。另外，我们应该在Dockerfile中设置映射端口和数据卷。示例如下:</p>
+<pre><code>FROM node:7-alpine
+
+ENV PROJECT_DIR=/app
+
+WORKDIR $PROJECT_DIR
+
+COPY package.json $PROJECT_DIR
+RUN npm install
+COPY . $PROJECT_DIR
+
+ENV MEDIA_DIR=/media \
+NODE_ENV=production \
+APP_PORT=3000
+
+VOLUME $MEDIA_DIR
+EXPOSE $APP_PORT
+
+ENTRYPOINT [&quot;./entrypoint.sh&quot;]
+CMD [&quot;start&quot;]
+</code></pre>
+<p>ENV指令指定的环境变量在容器中可以使用。如果你只是需要指定构建镜像时的变量，你可以使用ARG指令。</p>
+<h3 id="13-使用label设置镜像元数据">13. 使用LABEL设置镜像元数据</h3>
+<p>使用LABEL指令，可以为镜像设置元数据，例如镜像创建者或者镜像说明。旧版的Dockerfile语法使用MAINTAINER指令指定镜像创建者，但是它已经被弃用了。有时，一些外部程序需要用到镜像的元数据，例如nvidia-docker需要用到com.nvidia.volumes.needed。示例如下:</p>
+<pre><code>FROM node:7-alpine
+LABEL maintainer &quot;jakub.skalecki@example.com&quot;
+...
+
+</code></pre>
+<h3 id="14-添加healthcheck">14. 添加HEALTHCHECK</h3>
+<p>运行容器时，可以指定--restart always选项。这样的话，容器崩溃时，Docker守护进程(docker daemon)会重启容器。对于需要长时间运行的容器，这个选项非常有用。但是，如果容器的确在运行，但是不可(陷入死循环，配置错误)用怎么办？使用HEALTHCHECK指令可以让Docker周期性的检查容器的健康状况。我们只需要指定一个命令，如果一切正常的话返回0，否则返回1。对HEALTHCHECK感兴趣的话，可以参考<a href="https://blog.newrelic.com/engineering/docker-health-check-instruction/">这篇博客</a>。示例如下:</p>
+<pre><code>FROM node:7-alpine
+LABEL maintainer &quot;jakub.skalecki@example.com&quot;
+
+ENV PROJECT_DIR=/app
+WORKDIR $PROJECT_DIR
+
+COPY package.json $PROJECT_DIR
+RUN npm install
+COPY . $PROJECT_DIR
+
+ENV MEDIA_DIR=/media \
+NODE_ENV=production \
+APP_PORT=3000
+
+VOLUME $MEDIA_DIR
+EXPOSE $APP_PORT
+HEALTHCHECK CMD curl --fail http://localhost:$APP_PORT || exit 1
+
+ENTRYPOINT [&quot;./entrypoint.sh&quot;]
+CMD [&quot;start&quot;]
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://lm93129.github.io/blog//tag/XTf6QFya9" class="tag">
+                    docker
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://lm93129.github.io/blog//post/xChmFhWoQ">
+                  <h3 class="post-title">
+                    使用Rancher快速搭建一个k8s集群
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
