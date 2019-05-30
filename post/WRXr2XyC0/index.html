@@ -1,191 +1,130 @@
 <!DOCTYPE html>
 <html>
   <head>
-      
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>浮生若梦</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8" >
 
-<meta name="description" content="温故而知新  fs.tn"/>
-<meta name="keywords" content="温故而知新  fs.tn"/>
+<title>Jenkins的安装（docker）和简单的使用 | 浮生若梦</title>
+<meta name="description" content="温故而知新  fs.tn">
 
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<link rel="shortcut icon" href="https://fs.tn/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://fs.tn/favicon.ico?v=1559234655269">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://fs.tn/styles/main.css">
 
-<!-- Modernizr JS -->
-<script src="https://fs.tn/media/scripts/_vendors/modernizr-2.6.2.min.js"></script>
-<!-- FOR IE9 below -->
-<!--[if lt IE 9]>
-<scripts src="https://fs.tn/media/scripts/_vendors/respond.min.js"></scripts>
-<![endif]-->
 
-<!-- Comment -->
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
 
-    
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-    
-
-    
+  
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/tomorrow-night.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-<link crossorigin="anonymous" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" href="https://lib.baomitu.com/font-awesome/5.8.1/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script>
+
 
   </head>
   <body>
-  
-<div id="fh5co-offcanvas">
-    <a href="#!" class="fh5co-close-offcanvas js-fh5co-close-offcanvas">
-        <span><i class="icon-cross3"></i> <span>Close</span></span>
-    </a>
-    <div class="fh5co-bio">
-        <figure>
-            <img src="https://fs.tn/media/images/avatar.png" alt="浮生若梦" class="img-responsive">
-        </figure>
-        <h3 class="heading">ABOUT ME</h3>
-        <h2>浮生若梦</h2>
-        <p>温故而知新  fs.tn</p>
-        <ul class="fh5co-social">
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-        </ul>
-    </div>
+    <div id="app" class="main">
 
-    <div class="fh5co-menu">
-        <div class="fh5co-box">
-            <h3 class="heading">搜索</h3>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="输入关键字">
-                </div>
-            </form>
-        </div>
-        <div class="fh5co-box">
-            <h3 class="heading">标签</h3>
-            <ul>
-                
-                    <li><a href="https://fs.tn/tag/XTf6QFya9">docker</a></li>
-                
-                    <li><a href="https://fs.tn/tag/QNC8T5st1">kubernetes</a></li>
-                
-                    <li><a href="https://fs.tn/tag/rkQFlt07z">k8s</a></li>
-                
-                    <li><a href="https://fs.tn/tag/R5Ken2nRw">持续集成</a></li>
-                
-                    <li><a href="https://fs.tn/tag/tNyzxcM7b">Jenkins</a></li>
-                
-                    <li><a href="https://fs.tn/tag/hv0-KOS_H">移动端测试</a></li>
-                
-                    <li><a href="https://fs.tn/tag/-lhVZc40P">linux</a></li>
-                
-                    <li><a href="https://fs.tn/tag/NQwomkDOa">sonarqube</a></li>
-                
-                    <li><a href="https://fs.tn/tag/LsqQ7P51r">性能测试</a></li>
-                
-                    <li><a href="https://fs.tn/tag/ohD5pWWwI">功能测试</a></li>
-                
-            </ul>
-        </div>
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://fs.tn">
+        <img src="https://fs.tn/images/avatar.png?v=1559234655269" class="site-logo">
+        <h1 class="site-title">浮生若梦</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
     </div>
+    <div>
+      
+        
+          <a href="https://fs.tn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://fs.tn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://fs.tn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://fs.tn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新  fs.tn
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110974045-2');
+</script> | <a class="rss" href="https://fs.tn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
 </div>
 
-<header id="fh5co-header">
-    <div class="container-fluid">
-        <div class="row">
-            <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
-            <ul class="fh5co-social">
-                
-                    <li>
-                        <a href="https://lm93129.github.io/blog/"
-                         >
-                            首页
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="https://lm93129.github.io/blog//archives"
-                         >
-                            归档
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="https://lm93129.github.io/blog//tags"
-                         >
-                            标签
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="https://lm93129.github.io/blog//post/about/"
-                         >
-                            关于
-                        </a>
-                    </li>
-                
-            </ul>
-            <div class="col-lg-12 col-md-12 text-center">
-                <h1 id="fh5co-logo">
-                    <a href="https://fs.tn">浮生若梦</a>
-                </h1>
-            </div>
-        </div>
-    </div>
-</header>
 
-
-<!--  <a href="#" class="fh5co-post-prev"><span>👈 Prev</span></a>-->
-<!--  <a href="#" class="fh5co-post-next"><span>Next 👉</span></a>-->
-
-  <div class="container-fluid">
-      <div class="row fh5co-post-entry single-entry">
-          <article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
-              <figure class="animate-box">
-                  
-                      <img src="https://fs.tn/post-images/WRXr2XyC0.png" alt="Jenkins的安装（docker）和简单的使用" class="img-responsive">
-                  
-              </figure>
-              <span class="fh5co-meta animate-box">
-                  
-                      <div class="tag-container">
-                          
-                              <a href="https://fs.tn/tag/tNyzxcM7b" class="tag">Jenkins, </a>
-                          
-                              <a href="https://fs.tn/tag/R5Ken2nRw" class="tag">持续集成, </a>
-                          
-                      </div>
-                  
-              </span>
-              <h2 class="fh5co-article-title animate-box">Jenkins的安装（docker）和简单的使用</h2>
-              <span class="fh5co-meta fh5co-date animate-box">2019-03-13</span>
-
-              <div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
-                  <div class="row">
-                      <div class="col-md-12 animate-box post-content">
-                          <p> <p><ul class="markdownIt-TOC">
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Jenkins的安装（docker）和简单的使用</h2>
+            <div class="post-date">2019-03-13</div>
+            
+              <div class="feature-container" style="background-image: url('https://fs.tn/post-images/WRXr2XyC0.png')">
+              </div>
+            
+            <div class="post-content">
+              <p><ul class="markdownIt-TOC">
 <li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
 <li><a href="#%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA">环境构建</a>
 <ul>
@@ -324,98 +263,85 @@ Jenkins中安装Jenkins Simple Theme Plugin插件，然后再系统设置中找�
 <p>在系统管理中选择节点管理，选择添加一个节点
 <img src="https://i.loli.net/2019/03/14/5c89c4af34dc9.png" alt="">
 添加完成之后，点击添加后的节点，然后点击relaunch agent，等会就自动连接好了，如果提示找不到Java，则是节点需要安装好Java，或者在添加节点的时候设置好Java_home</p>
- </p>
-                      </div>
-                  </div>
 
-                  <div class="row">
-                      <div class="col-md-12 animate-box">
-                          
-                              <div class="next-post">
-                                  <div class="next">下一篇</div>
-                                  <a href="https://fs.tn/post/j8PAuWkv5">
-                                      <h3 class="post-title">
-                                          SonarQube 的安装（docker）与使用
-                                      </h3>
-                                  </a>
-                              </div>
-                          
-                      </div>
-                  </div>
-
-                  <div class="row">
-                      <div class="col-md-12 animate-box">
-                          
-                              
-                                  <div id="gitalk-container"></div>
-                              
-
-                              
-                          
-                      </div>
-                  </div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://fs.tn/tag/tNyzxcM7b" class="tag">
+                    Jenkins
+                  </a>
+                
+                  <a href="https://fs.tn/tag/R5Ken2nRw" class="tag">
+                    持续集成
+                  </a>
+                
               </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://fs.tn/post/j8PAuWkv5">
+                  <h3 class="post-title">
+                    SonarQube 的安装（docker）与使用
+                  </h3>
+                </a>
+              </div>
+            
 
-          </article>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
       </div>
-  </div>
+    </div>
 
-    
-<footer id="fh5co-footer">
-  <p>Powered by Hve Notes
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110974045-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-110974045-2');
-</script></p>
-</footer>
-
-
-    
-<!-- jQuery -->
-<script src="https://fs.tn/media/scripts/_vendors/jquery.min.js"></script>
-<!-- jQuery Easing -->
-<script src="https://fs.tn/media/scripts/_vendors/jquery.easing.1.3.js"></script>
-<!-- Bootstrap -->
-<script src="https://fs.tn/media/scripts/_vendors/bootstrap.min.js"></script>
-<!-- Waypoints -->
-<script src="https://fs.tn/media/scripts/_vendors/jquery.waypoints.min.js"></script>
-<!-- Main JS -->
-<script src="https://fs.tn/media/scripts/_vendors/main.js"></script>
-<!-- Md5 Min JS -->
-<script src="https://fs.tn/media/scripts/_vendors/md5.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
 <script type="application/javascript">
-    hljs.initHighlightingOnLoad();
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
 
 
 
-    
-        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-        <script>
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
 
-            var gitalk = new Gitalk({
-                clientID: '6ed8bed9fd41c51fea51',
-                clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
-                repo: 'blog',
-                owner: 'lm93129',
-                admin: ['lm93129'],
-                id: md5(location.pathname),      // Ensure uniqueness and length less than 50
-                distractionFreeMode: false  // Facebook-like distraction free mode
-            })
+      var gitalk = new Gitalk({
+        clientID: '6ed8bed9fd41c51fea51',
+        clientSecret: '3c60e6dd9a0d773071feafb1bef2d45d78d91b0e',
+        repo: 'blog',
+        owner: 'lm93129',
+        admin: ['lm93129'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
 
-            gitalk.render('gitalk-container')
+      gitalk.render('gitalk-container')
 
-        </script>
-    
+    </script>
+  
 
-    
+  
 
 
 
