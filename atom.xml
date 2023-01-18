@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blog.muzim.cn</id>
+    <title>浮生若梦</title>
+    <updated>2023-01-18T16:21:37.130Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blog.muzim.cn"/>
+    <link rel="self" href="https://blog.muzim.cn/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://blog.muzim.cn/images/avatar.png</logo>
+    <icon>https://blog.muzim.cn/favicon.ico</icon>
+    <rights>All rights reserved 2023, 浮生若梦</rights>
+    <entry>
+        <title type="html"><![CDATA[Drone开源持续集成工具——Pipeline篇]]></title>
+        <id>https://blog.muzim.cn/post/BVx30SK1M/</id>
+        <link href="https://blog.muzim.cn/post/BVx30SK1M/">
+        </link>
+        <updated>2020-05-08T07:35:29.000Z</updated>
+        <summary type="html"><![CDATA[<p>本文会详细介绍如何编写一个Drone的pipeline文件</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>本文会详细介绍如何编写一个Drone的pipeline文件</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Drone开源持续集成工具——部署教程篇]]></title>
+        <id>https://blog.muzim.cn/post/IYdOb_aYG/</id>
+        <link href="https://blog.muzim.cn/post/IYdOb_aYG/">
+        </link>
+        <updated>2020-05-08T06:06:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>Drone是一个用Go语言开发的基于容器运行的开源持续集成软件。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Drone是一个用Go语言开发的基于容器运行的开源持续集成软件。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SonarQube代码扫码中代码覆盖率的计算公式]]></title>
+        <id>https://blog.muzim.cn/post/-TWSGE1cs/</id>
+        <link href="https://blog.muzim.cn/post/-TWSGE1cs/">
+        </link>
+        <updated>2020-03-25T05:04:08.000Z</updated>
+        <summary type="html"><![CDATA[<p>想必有很多人不太理解SonarQube中关于代码覆盖率的计算方法。对于覆盖率、分支覆盖率、分支覆盖率等这些的区别</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>想必有很多人不太理解SonarQube中关于代码覆盖率的计算方法。对于覆盖率、分支覆盖率、分支覆盖率等这些的区别</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用RKE部署一个k8s集群并部署Rancher HA]]></title>
+        <id>https://blog.muzim.cn/post/PmaL-uIiQ/</id>
+        <link href="https://blog.muzim.cn/post/PmaL-uIiQ/">
+        </link>
+        <updated>2019-12-27T01:33:03.000Z</updated>
+        <summary type="html"><![CDATA[<p><br>
+RKE全称为Rancher Kubernetes Engine，是rancher开源的轻量级k8s集群部署工具，使用他可以快速的部署一个k8s集群</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><br>
+RKE全称为Rancher Kubernetes Engine，是rancher开源的轻量级k8s集群部署工具，使用他可以快速的部署一个k8s集群</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[利用YAPI和持续集成CI工具进行接口自动化测试]]></title>
+        <id>https://blog.muzim.cn/post/aNGEtf43Z/</id>
+        <link href="https://blog.muzim.cn/post/aNGEtf43Z/">
+        </link>
+        <updated>2019-09-03T01:32:09.000Z</updated>
+        <summary type="html"><![CDATA[<p><br>
+YAPI是一个高效、易用、功能强大的 api 管理平台，可以在上面进行接口的集中管理，并且支持直接导入和自动更新swagger的接口数据。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><br>
+YAPI是一个高效、易用、功能强大的 api 管理平台，可以在上面进行接口的集中管理，并且支持直接导入和自动更新swagger的接口数据。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ingres-nginx annotations高级配置（灰度和金丝雀发布）]]></title>
+        <id>https://blog.muzim.cn/post/7UEVRVfNj/</id>
+        <link href="https://blog.muzim.cn/post/7UEVRVfNj/">
+        </link>
+        <updated>2019-06-25T08:15:34.000Z</updated>
+        <summary type="html"><![CDATA[<p><br>
+nginx-ingress作为K8S集群对外的流量入口，充当K8S集群内各个service的反向代理。日常工作中我们经常需要对服务进行版本更新升级，为此我们经常使用到的发布方式有滚动升级、分批暂停发布、蓝绿发布以及灰度发布等不同的发布操作。所以下面介绍下，通过配置nginx annotations来实现不同场景下的发布和测试。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><br>
+nginx-ingress作为K8S集群对外的流量入口，充当K8S集群内各个service的反向代理。日常工作中我们经常需要对服务进行版本更新升级，为此我们经常使用到的发布方式有滚动升级、分批暂停发布、蓝绿发布以及灰度发布等不同的发布操作。所以下面介绍下，通过配置nginx annotations来实现不同场景下的发布和测试。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[性能测试中TPS和并发用户数]]></title>
+        <id>https://blog.muzim.cn/post/UVRm22QVT/</id>
+        <link href="https://blog.muzim.cn/post/UVRm22QVT/">
+        </link>
+        <updated>2019-06-19T15:14:02.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[BlazeMeter-- Jmeter 与 Selenium 录制编辑回放 chrome 插件工具]]></title>
+        <id>https://blog.muzim.cn/post/NjkdXEU8U/</id>
+        <link href="https://blog.muzim.cn/post/NjkdXEU8U/">
+        </link>
+        <updated>2019-06-19T14:25:44.000Z</updated>
+        <summary type="html"><![CDATA[<p></p>
+<p>以前录制jmeter脚本的时候，基本都是使用jmeter的代理来进行录制的，这个录制的过程设置代理的话，可能会出现一些问题，下面就介绍一个基于chrome浏览器插件的jmeter和Selenium 录制编辑回放工具：BlazeMeter</p>
+]]></summary>
+        <content type="html"><![CDATA[<p></p>
+<p>以前录制jmeter脚本的时候，基本都是使用jmeter的代理来进行录制的，这个录制的过程设置代理的话，可能会出现一些问题，下面就介绍一个基于chrome浏览器插件的jmeter和Selenium 录制编辑回放工具：BlazeMeter</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何编写最佳的Dockerfile]]></title>
+        <id>https://blog.muzim.cn/post/cpGnLA2hK/</id>
+        <link href="https://blog.muzim.cn/post/cpGnLA2hK/">
+        </link>
+        <updated>2019-05-27T01:28:14.000Z</updated>
+        <summary type="html"><![CDATA[<p><br>
+Dockerfile的语法非常简单，然而如何加快镜像构建速度，如何减少Docker镜像的大小却不是那么直观，需要积累实践经验。这篇博客可以帮助你快速掌握编写Dockerfile的技巧。<br>
+我已经使用Docker有一段时间了，其中编写Dockerfile是非常重要的一部分工作。在这篇博客中，我打算分享一些建议，帮助大家编写更好的Dockerfile。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><br>
+Dockerfile的语法非常简单，然而如何加快镜像构建速度，如何减少Docker镜像的大小却不是那么直观，需要积累实践经验。这篇博客可以帮助你快速掌握编写Dockerfile的技巧。<br>
+我已经使用Docker有一段时间了，其中编写Dockerfile是非常重要的一部分工作。在这篇博客中，我打算分享一些建议，帮助大家编写更好的Dockerfile。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用Rancher快速搭建一个k8s集群]]></title>
+        <id>https://blog.muzim.cn/post/xChmFhWoQ/</id>
+        <link href="https://blog.muzim.cn/post/xChmFhWoQ/">
+        </link>
+        <updated>2019-04-28T07:55:22.000Z</updated>
+        <summary type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#rancher%E4%BB%8B%E7%BB%8D">Rancher介绍</a></li>
+</ul>
+</p>
+<h1 id="rancher介绍">Rancher介绍</h1>
+<p>Rancher是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#rancher%E4%BB%8B%E7%BB%8D">Rancher介绍</a></li>
+</ul>
+</p>
+<h1 id="rancher介绍">Rancher介绍</h1>
+<p>Rancher是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。</p>
+]]></content>
+    </entry>
+</feed>
